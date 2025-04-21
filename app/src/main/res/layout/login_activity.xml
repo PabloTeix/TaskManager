@@ -10,6 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Email"
+        android:textColorHint="#BDC3C7"
         android:inputType="textEmailAddress" />
 
     <EditText
@@ -17,6 +18,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Contraseña"
+        android:textColorHint="#BDC3C7"
+
         android:inputType="textPassword" />
 
     <Button
@@ -30,5 +33,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="¿No tienes cuenta? Regístrate aquí" />
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone" /> <!-- Inicialmente oculto -->
+
 
 </LinearLayout>
