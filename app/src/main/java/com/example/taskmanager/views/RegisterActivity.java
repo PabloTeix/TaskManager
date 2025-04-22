@@ -20,7 +20,6 @@ public class RegisterActivity extends AppCompatActivity {
     private Button btnRegister;
     private ProgressBar progressBar;
 
-    // Usamos ViewModelProvider para obtener el RegisterViewModel
     private RegisterViewModel registerViewModel;
 
     @Override
@@ -38,31 +37,28 @@ public class RegisterActivity extends AppCompatActivity {
         btnRegister = findViewById(R.id.btnRegister);
         progressBar = findViewById(R.id.progressBar);
 
-        // Obtener el ViewModel a través de ViewModelProvider
+        // Inicializar el ViewModel
         registerViewModel = new ViewModelProvider(this).get(RegisterViewModel.class);
 
-        // Observar el mensaje de estado del ViewModel
+        // Observar el estado de los mensajes y del progreso
         registerViewModel.getStatusMessage().observe(this, message -> {
             Toast.makeText(RegisterActivity.this, message, Toast.LENGTH_SHORT).show();
-
-            // Si el registro es exitoso, navegar a la pantalla de Login
             if (message.equals("Registro exitoso")) {
-                navigateToLogin();
+                navigateToLogin();  // Navegar al Login después de un registro exitoso
             }
         });
 
-        // Observar si el registro está en progreso
         registerViewModel.getIsRegistering().observe(this, isRegistering -> {
             if (isRegistering) {
-                progressBar.setVisibility(ProgressBar.VISIBLE); // Mostrar el progreso
-                btnRegister.setEnabled(false); // Deshabilitar el botón de registro
+                progressBar.setVisibility(ProgressBar.VISIBLE);
+                btnRegister.setEnabled(false);
             } else {
-                progressBar.setVisibility(ProgressBar.GONE); // Ocultar el progreso
-                btnRegister.setEnabled(true); // Habilitar el botón de registro
+                progressBar.setVisibility(ProgressBar.GONE);
+                btnRegister.setEnabled(true);
             }
         });
 
-        // Manejar el clic del botón de registro
+        // Manejar el evento de clic del botón de registro
         btnRegister.setOnClickListener(v -> {
             String fullName = etFullName.getText().toString().trim();
             String email = etEmail.getText().toString().trim();
@@ -76,10 +72,10 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
 
-    // Método para redirigir a la actividad de Login
+    // Método para redirigir a LoginActivity
     private void navigateToLogin() {
         Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
         startActivity(intent);
-        finish();
+        finish();  // Finalizamos esta actividad para que no pueda volver atrás al registrarse
     }
 }

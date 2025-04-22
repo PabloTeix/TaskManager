@@ -21,6 +21,12 @@ public class LoginViewModel extends ViewModel {
         statusMessage = new MutableLiveData<>();
         isLoggingIn = new MutableLiveData<>(false);
         loggedInUser = new MutableLiveData<>();
+
+        // Verificar si el usuario ya está autenticado al iniciar la aplicación
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser != null) {
+            loggedInUser.setValue(currentUser); // Si el usuario está autenticado, establecer el usuario
+        }
     }
 
     public LiveData<String> getStatusMessage() {
@@ -35,6 +41,7 @@ public class LoginViewModel extends ViewModel {
         return loggedInUser;
     }
 
+    // Método para iniciar sesión
     public void loginUser(String email, String password) {
         if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
             statusMessage.setValue("Por favor, ingresa todos los campos");
@@ -56,5 +63,10 @@ public class LoginViewModel extends ViewModel {
                     }
                 });
     }
-}
 
+    // Método para cerrar sesión
+    public void logoutUser() {
+        mAuth.signOut();
+        loggedInUser.setValue(null); // Establecer loggedInUser a null cuando el usuario se desconecta
+    }
+}
