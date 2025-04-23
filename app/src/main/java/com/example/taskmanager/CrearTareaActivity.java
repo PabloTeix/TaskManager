@@ -1,6 +1,7 @@
 package com.example.taskmanager;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -43,57 +44,77 @@ public class CrearTareaActivity extends AppCompatActivity {
         inicio_tarea = findViewById(R.id.fecha_inicio);
         btnAgregar = findViewById(R.id.button_añadir);
 
+        // Definir el evento de clic para agregar tarea
         btnAgregar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Obtener los valores ingresados
                 String titulotarea = titulo_tarea.getText().toString().trim();
                 String descripciontarea = descripcion_tarea.getText().toString().trim();
                 String fechaInicioTexto = inicio_tarea.getText().toString().trim();
 
-                // Verificamos que la fecha esté en el formato correcto
+                // Verificar que los campos no estén vacíos
+                if (titulotarea.isEmpty() || descripciontarea.isEmpty() || fechaInicioTexto.isEmpty()) {
+                    Toast.makeText(CrearTareaActivity.this, "Por favor ingresa todos los datos", Toast.LENGTH_SHORT).show();
+                    return; // Evitar continuar si algún campo está vacío
+                }
+
+                // Verificar el formato de la fecha
                 SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
                 Date iniciotarea = null;
-
                 try {
                     iniciotarea = formatoFecha.parse(fechaInicioTexto);
                 } catch (ParseException e) {
-                    e.printStackTrace(); // Podrías mostrar un Toast también
+                    e.printStackTrace();
                     Toast.makeText(CrearTareaActivity.this, "Formato de fecha incorrecto", Toast.LENGTH_SHORT).show();
+                    return; // No continuar si la fecha tiene un formato incorrecto
                 }
 
-                // Validamos los campos
-                if (titulotarea.isEmpty() || descripciontarea.isEmpty() || fechaInicioTexto.isEmpty() || iniciotarea == null) {
-                    Toast.makeText(CrearTareaActivity.this, "Ingresar todos los datos correctamente", Toast.LENGTH_SHORT).show();
-                } else {
-                    postTarea(titulotarea, descripciontarea, iniciotarea); // Pasamos la fecha como un Date
-                }
+                // Llamar al método para guardar la tarea si todo es válido
+                postTarea(titulotarea, descripciontarea, iniciotarea);
             }
         });
     }
 
     private void postTarea(String titulotarea, String descripcionTarea, Date fechaInicio) {
+        // Crear el mapa de datos para Firestore
         Map<String, Object> map = new HashMap<>();
         map.put("titulo", titulotarea);
         map.put("descripcion", descripcionTarea);
-        map.put("fecha_inicio", fechaInicio);  // Usamos el objeto Date directamente
+        map.put("fecha_inicio", fechaInicio);
 
-        mfirestore.collection("tareas").add(map).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-            @Override
-            public void onSuccess(DocumentReference documentReference) {
-                Toast.makeText(getApplicationContext(), "Tarea creada exitosamente", Toast.LENGTH_SHORT).show();
-                finish();
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(getApplicationContext(), "Error al ingresar datos", Toast.LENGTH_SHORT).show();
-            }
-        });
+        // Agregar tarea a Firestore
+        mfirestore.collection("tareas").add(map)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        Toast.makeText(getApplicationContext(), "Tarea creada exitosamente", Toast.LENGTH_SHORT).show();
+                        // Usar un Handler para asegurar que la tarea se haya guardado correctamente antes de cerrar
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                finish(); // Cerrar la actividad después de un pequeño retraso
+                            }
+                        }, 1000);
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getApplicationContext(), "Error al ingresar datos", Toast.LENGTH_SHORT).show();
+                        e.printStackTrace(); // Esto ayudará a depurar si el error persiste
+                    }
+                });
     }
 
     @Override
     public boolean onSupportNavigateUp() {
-        onBackPressed(); // Deprecated, pero funciona
+        onBackPressed(); // Manejar la acción de retroceder en el ActionBar
         return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed(); // Llamar al comportamiento estándar para el retroceso
     }
 }
