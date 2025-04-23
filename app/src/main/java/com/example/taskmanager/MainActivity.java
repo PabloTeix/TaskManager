@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
                 new FirestoreRecyclerOptions.Builder<Tarea>().setQuery(query, Tarea.class).build();
 
         // Adapter for RecyclerView
-        mAdapter = new AdapterTarea(firestoreRecyclerOptions);
+        mAdapter = new AdapterTarea(firestoreRecyclerOptions,this);
         mRecycler.setAdapter(mAdapter);
 
         // Set up "Add Task" button
