@@ -5,7 +5,9 @@ plugins {
     //id("com.android.application")
     id("com.google.gms.google-services")
 }
-
+configurations.all {
+    exclude(group = "com.intellij", module = "annotations")
+}
 android {
     namespace = "com.example.taskmanager"
     compileSdk = 35
@@ -57,6 +59,10 @@ dependencies {
     implementation(libs.firebase.auth)
     implementation(libs.firebase.database)
     implementation(libs.firebase.firestore)
+    implementation(libs.material)
+    implementation(libs.androidx.activity)
+    implementation(libs.androidx.constraintlayout)
+    implementation(libs.androidx.room.compiler)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
