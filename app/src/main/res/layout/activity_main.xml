@@ -14,5 +14,10 @@
         android:layout_height="wrap_content"
         android:text="Agregar tarea"
         android:layout_marginTop="90dp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyvlerViewSingle"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 </LinearLayout>
 
