@@ -1,6 +1,7 @@
 package com.example.taskmanager.adapter;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.taskmanager.CrearTareaActivity;
 import com.example.taskmanager.R;
 import com.example.taskmanager.models.Tarea;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
@@ -48,6 +50,9 @@ public class AdapterTarea extends FirestoreRecyclerAdapter<Tarea, AdapterTarea.V
         holder.button_editar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent i = new Intent(activity, CrearTareaActivity.class);
+                i.putExtra("id_tarea",id);
+                activity.startActivity(i);
 
             }
         });
