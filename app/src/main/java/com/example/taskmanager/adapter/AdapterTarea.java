@@ -45,6 +45,13 @@ public class AdapterTarea extends FirestoreRecyclerAdapter<Tarea, AdapterTarea.V
         String fechaFormateada = sdf.format(tarea.getFecha_inicio());
         holder.fecha.setText(fechaFormateada);
 
+        holder.button_editar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
         holder.button_eliminar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -52,7 +59,7 @@ public class AdapterTarea extends FirestoreRecyclerAdapter<Tarea, AdapterTarea.V
             }
         });
     }
-
+//logica para borrar tareas
     private void deleteTarea(String id){
         mFirestore.collection("tareas").document(id).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
@@ -77,7 +84,7 @@ public class AdapterTarea extends FirestoreRecyclerAdapter<Tarea, AdapterTarea.V
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView titulo, descripcion, fecha;
-        ImageView button_eliminar;
+        ImageView button_eliminar,button_editar;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -85,6 +92,7 @@ public class AdapterTarea extends FirestoreRecyclerAdapter<Tarea, AdapterTarea.V
             descripcion = itemView.findViewById(R.id.tarea_descripcion);
             fecha = itemView.findViewById(R.id.tarea_fecha);
             button_eliminar = itemView.findViewById(R.id.btn_eliminar);
+            button_editar = itemView.findViewById(R.id.bt_editar);
         }
     }
 }

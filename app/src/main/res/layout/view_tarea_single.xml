@@ -56,6 +56,14 @@
         </LinearLayout>
 
         <ImageView
+            android:id="@+id/bt_editar"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_weight="1"
+            android:padding="5dp"
+            card_view:srcCompat="@drawable/ic_edit" />
+
+        <ImageView
             android:id="@+id/btn_eliminar"
             android:layout_width="80dp"
             android:layout_height="80dp"
