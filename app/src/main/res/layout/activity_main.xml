@@ -18,11 +18,18 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <Button
+            android:id="@+id/btn_cerrar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="90dp"
+            android:text="Cerrar sesion" />
+
+        <Button
             android:id="@+id/btnAgregar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Agregar tarea"
-            android:layout_marginTop="90dp" />
+            app:layout_constraintBottom_toTopOf="@id/btn_cerrar"/>
 
 
 
