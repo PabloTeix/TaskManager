@@ -24,7 +24,7 @@ import com.google.firebase.auth.FirebaseUser;
 public class LoginActivity extends AppCompatActivity {
 
     private EditText etEmailLogin, etPasswordLogin;
-    private Button btnLogin, btnRegisterRedirect;
+    private Button btnLogin, btnRegisterRedirect,btnInvitado;
     private ProgressBar progressBar;
 
     private FirebaseAuth mAuth;
@@ -50,7 +50,17 @@ public class LoginActivity extends AppCompatActivity {
         etPasswordLogin = findViewById(R.id.etPasswordLogin);
         btnLogin = findViewById(R.id.btnLogin);
         btnRegisterRedirect = findViewById(R.id.btnRegisterRedirect);
+        btnInvitado = findViewById(R.id.btn_invitado);
         progressBar = findViewById(R.id.progressBar);
+
+
+        btnInvitado.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loginAnonimo();
+            }
+        });
+
 
         // Manejar el clic del botón para ir al registro
         btnRegisterRedirect.setOnClickListener(new View.OnClickListener() {
@@ -75,6 +85,23 @@ public class LoginActivity extends AppCompatActivity {
                 } else {
                     loginUser(email, password);
                 }
+            }
+        });
+    }
+
+    private void loginAnonimo() {
+        mAuth.signInAnonymously().addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if(task.isSuccessful()){
+                    FirebaseUser user = mAuth.getCurrentUser();
+                    startActivity(new Intent(LoginActivity.this,MainActivity.class));
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(LoginActivity.this, "Error al acceder", Toast.LENGTH_LONG).show();
             }
         });
     }
