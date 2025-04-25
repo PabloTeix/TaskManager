@@ -1,11 +1,14 @@
 package com.example.taskmanager;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.SearchView;
 
 import com.example.taskmanager.views.LoginActivity;
+import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.Query;
 
@@ -21,11 +24,12 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button btnAgregar,btn_Cerrar;
+    Button btnAgregar, btn_Cerrar;
     RecyclerView mRecycler;
     AdapterTarea mAdapter;
     FirebaseFirestore mFirestore;
     FirebaseAuth mAuth;
+    SearchView search_view;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,8 +51,12 @@ public class MainActivity extends AppCompatActivity {
                 new FirestoreRecyclerOptions.Builder<Tarea>().setQuery(query, Tarea.class).build();
 
         // Adapter for RecyclerView
-        mAdapter = new AdapterTarea(firestoreRecyclerOptions,this);
+        mAdapter = new AdapterTarea(firestoreRecyclerOptions, this);
         mRecycler.setAdapter(mAdapter);
+
+        search_view = findViewById(R.id.search);
+        setUpRecyclerView();
+        search_view();
 
         btn_Cerrar = findViewById(R.id.btn_cerrar);
         btn_Cerrar.setOnClickListener(new View.OnClickListener() {
@@ -60,8 +68,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-
         // Set up "Add Task" button
         btnAgregar = findViewById(R.id.btnAgregar);
         btnAgregar.setOnClickListener(new View.OnClickListener() {
@@ -71,6 +77,44 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, CrearTareaActivity.class));
             }
         });
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private void setUpRecyclerView() {
+        // Configuration is already handled in onCreate
+    }
+
+    private void search_view() {
+        search_view.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                textSearch(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                textSearch(newText);
+                return false;
+            }
+        });
+    }
+
+    public void textSearch(String queryText) {
+        // Define the query based on the search input
+        Query query = mFirestore.collection("tareas")
+                .orderBy("titulo")
+                .startAt(queryText)
+                .endAt(queryText + "~");
+
+        FirestoreRecyclerOptions<Tarea> firestoreRecyclerOptions =
+                new FirestoreRecyclerOptions.Builder<Tarea>()
+                        .setQuery(query, Tarea.class)
+                        .build();
+
+        mAdapter.updateOptions(firestoreRecyclerOptions); // Update the adapter with new query
+        mAdapter.startListening();
+        mRecycler.setAdapter(mAdapter);
     }
 
     @Override
