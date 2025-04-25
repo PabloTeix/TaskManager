@@ -1,4 +1,4 @@
-package com.example.taskmanager;
+package com.example.taskmanager.views;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -11,6 +11,7 @@ import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.taskmanager.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;

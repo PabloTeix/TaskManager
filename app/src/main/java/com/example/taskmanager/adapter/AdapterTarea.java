@@ -12,7 +12,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.taskmanager.CrearTareaActivity;
+import com.example.taskmanager.views.CrearTareaActivity;
 import com.example.taskmanager.R;
 import com.example.taskmanager.models.Tarea;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;

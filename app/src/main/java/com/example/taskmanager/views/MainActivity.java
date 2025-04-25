@@ -1,4 +1,4 @@
-package com.example.taskmanager;
+package com.example.taskmanager.views;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -7,8 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.SearchView;
 
-import com.example.taskmanager.views.LoginActivity;
-import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
+import com.example.taskmanager.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.Query;
 
