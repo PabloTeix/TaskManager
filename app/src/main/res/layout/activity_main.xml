@@ -17,11 +17,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <SearchView
+            android:id="@+id/search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#FFFFFF"
+            android:backgroundTint="#FFFFFF"
+            android:layout_marginTop="90dp"/>
+
         <Button
             android:id="@+id/btn_cerrar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="90dp"
+            app:layout_constraintBottom_toTopOf="@id/search"
             android:text="Cerrar sesion" />
 
         <Button
