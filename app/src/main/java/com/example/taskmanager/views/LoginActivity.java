@@ -1,3 +1,4 @@
+//clase encargada de iniciar sesion
 package com.example.taskmanager.views;
 
 import android.content.Intent;
@@ -22,106 +23,119 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private EditText etEmailLogin, etPasswordLogin;
-    private Button btnLogin, btnRegisterRedirect,btnInvitado;
-    private ProgressBar progressBar;
+    private EditText etEmailLogin, etPasswordLogin; // Campos de texto para el correo y la contraseña
+    private Button btnLogin, btnRegisterRedirect, btnInvitado; // Botones para login, redirigir al registro, y acceso anónimo
+    private ProgressBar progressBar; // Barra de progreso que se muestra durante el login
 
-    private FirebaseAuth mAuth;
+    private FirebaseAuth mAuth; // Instancia de FirebaseAuth para la autenticación
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_activity);
 
-        // Inicializar Firebase Auth
+        // Inicializa la instancia de FirebaseAuth para gestionar la autenticación
         mAuth = FirebaseAuth.getInstance();
 
-        // Verificar si ya hay un usuario logueado
+        // Verifica si el usuario ya está logueado
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser != null) {
+            // Si ya está logueado, redirige directamente a la actividad principal
             startActivity(new Intent(LoginActivity.this, MainActivity.class));
-            finish();
-            return;
+            finish(); // Termina la actividad de login
+            return; // Sale de la función para evitar que se cargue la UI de login
         }
 
-        // Inicializar elementos de la UI
-        etEmailLogin = findViewById(R.id.etEmailLogin);
-        etPasswordLogin = findViewById(R.id.etPasswordLogin);
-        btnLogin = findViewById(R.id.btnLogin);
-        btnRegisterRedirect = findViewById(R.id.btnRegisterRedirect);
-        btnInvitado = findViewById(R.id.btn_invitado);
-        progressBar = findViewById(R.id.progressBar);
+        // Inicializa los elementos de la interfaz de usuario (UI)
+        etEmailLogin = findViewById(R.id.etEmailLogin); // EditText para el correo electrónico
+        etPasswordLogin = findViewById(R.id.etPasswordLogin); // EditText para la contraseña
+        btnLogin = findViewById(R.id.btnLogin); // Botón para iniciar sesión
+        btnRegisterRedirect = findViewById(R.id.btnRegisterRedirect); // Botón para redirigir al registro
+        btnInvitado = findViewById(R.id.btn_invitado); // Botón para iniciar sesión como invitado
+        progressBar = findViewById(R.id.progressBar); // Barra de progreso
 
-
+        // Configura el clic del botón para login anónimo
         btnInvitado.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Llama al método para login anónimo
                 loginAnonimo();
             }
         });
 
-
-        // Manejar el clic del botón para ir al registro
+        // Configura el clic del botón para redirigir a la pantalla de registro
         btnRegisterRedirect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Inicia la actividad de registro cuando se hace clic
                 Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
                 startActivity(intent);
             }
         });
 
-        // Manejar el clic del botón de login
+        // Configura el clic del botón para iniciar sesión con el correo y la contraseña
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String email = etEmailLogin.getText().toString().trim();
-                String password = etPasswordLogin.getText().toString().trim();
+                String email = etEmailLogin.getText().toString().trim(); // Obtiene el correo del EditText
+                String password = etPasswordLogin.getText().toString().trim(); // Obtiene la contraseña del EditText
 
-                // Validar los campos
+                // Verifica si los campos están vacíos
                 if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
+                    // Muestra un mensaje de error si algún campo está vacío
                     Toast.makeText(LoginActivity.this, "Por favor, ingresa todos los campos", Toast.LENGTH_SHORT).show();
-                    return;
+                    return; // Sale del método si los campos están vacíos
                 } else {
+                    // Si los campos están completos, intenta hacer login con las credenciales proporcionadas
                     loginUser(email, password);
                 }
             }
         });
     }
 
+    // Método para realizar el login anónimo
     private void loginAnonimo() {
+        // Inicia sesión de forma anónima usando FirebaseAuth
         mAuth.signInAnonymously().addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-                if(task.isSuccessful()){
+                if (task.isSuccessful()) {
+                    // Si el login anónimo es exitoso, obtiene el usuario actual
                     FirebaseUser user = mAuth.getCurrentUser();
-                    startActivity(new Intent(LoginActivity.this,MainActivity.class));
+                    // Inicia la actividad principal si el login es exitoso
+                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
                 }
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
+                // Si el login anónimo falla, muestra un mensaje de error
                 Toast.makeText(LoginActivity.this, "Error al acceder", Toast.LENGTH_LONG).show();
             }
         });
     }
 
+    // Método para realizar el login con correo y contraseña
     private void loginUser(String email, String password) {
-        // Mostrar el progress bar
+        // Muestra la barra de progreso mientras se realiza el login
         progressBar.setVisibility(View.VISIBLE);
 
-        // Iniciar sesión con Firebase
+        // Inicia sesión con Firebase usando el correo y la contraseña
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        // Ocultar el progress bar
+                        // Oculta la barra de progreso una vez completada la tarea
                         progressBar.setVisibility(View.GONE);
 
                         if (task.isSuccessful()) {
+                            // Si el login es exitoso, termina la actividad de login y redirige a MainActivity
                             finish();
                             startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                            // Muestra un mensaje de bienvenida
                             Toast.makeText(LoginActivity.this, "Bienvenido", Toast.LENGTH_LONG).show();
                         } else {
+                            // Si ocurre un error en el login, muestra un mensaje de error
                             Toast.makeText(LoginActivity.this, "Error al iniciar sesión", Toast.LENGTH_LONG).show();
                         }
                     }
@@ -129,20 +143,22 @@ public class LoginActivity extends AppCompatActivity {
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
+                        // Si el login falla, oculta la barra de progreso y muestra un mensaje de error
                         progressBar.setVisibility(View.GONE);
                         Toast.makeText(LoginActivity.this, "Error de iniciar sesión: " + e.getMessage(), Toast.LENGTH_LONG).show();
                     }
                 });
     }
 
-
     @Override
     protected void onStart() {
         super.onStart();
+        // Verifica si el usuario ya está logueado al iniciar la actividad
         FirebaseUser user = mAuth.getCurrentUser();
-        if(user != null){
-            startActivity(new Intent(LoginActivity.this,MainActivity.class));
-            finish();
+        if (user != null) {
+            // Si el usuario ya está logueado, redirige a la actividad principal
+            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+            finish(); // Termina la actividad de login
         }
     }
 }

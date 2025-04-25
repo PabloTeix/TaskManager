@@ -33,110 +33,124 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_main);
+        EdgeToEdge.enable(this); // Habilitar la funcionalidad de bordes a bordes para la actividad
+        setContentView(R.layout.activity_main); // Establecer el layout de la actividad principal
 
-        // Firebase Firestore instance
-        mFirestore = FirebaseFirestore.getInstance();
-        mAuth = FirebaseAuth.getInstance();
+        // Inicialización de Firebase
+        mFirestore = FirebaseFirestore.getInstance(); // Obtener la instancia de Firestore
+        mAuth = FirebaseAuth.getInstance(); // Obtener la instancia de FirebaseAuth (autenticación)
+
+        // Configurar el RecyclerView para mostrar las tareas
         mRecycler = findViewById(R.id.recyclerViewSingle);
-        mRecycler.setLayoutManager(new LinearLayoutManager(this));
+        mRecycler.setLayoutManager(new LinearLayoutManager(this)); // Usar un LayoutManager para mostrar las tareas de forma vertical
 
-        // Set query to fetch tasks from Firestore
+        // Crear una consulta de Firestore para obtener las tareas de la colección "tareas"
         Query query = mFirestore.collection("tareas");
 
-        // FirestoreRecyclerOptions to bind data to RecyclerView
+        // Crear un objeto FirestoreRecyclerOptions para asociar la consulta con el RecyclerView
         FirestoreRecyclerOptions<Tarea> firestoreRecyclerOptions =
                 new FirestoreRecyclerOptions.Builder<Tarea>().setQuery(query, Tarea.class).build();
 
-        // Adapter for RecyclerView
+        // Inicializar el adaptador del RecyclerView con los datos obtenidos de Firestore
         mAdapter = new AdapterTarea(firestoreRecyclerOptions, this);
-        mRecycler.setAdapter(mAdapter);
+        mRecycler.setAdapter(mAdapter); // Establecer el adaptador al RecyclerView
 
+        // Configurar el SearchView para buscar tareas
         search_view = findViewById(R.id.search);
-        setUpRecyclerView();
-        search_view();
+        setUpRecyclerView(); // Método que prepara el RecyclerView (aunque en este caso no hace nada adicional)
+        search_view(); // Configurar el SearchView para realizar búsquedas
 
+        // Configuración del botón "Cerrar sesión"
         btn_Cerrar = findViewById(R.id.btn_cerrar);
         btn_Cerrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mAuth.signOut();
-                finish();
-                startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                mAuth.signOut(); // Cerrar sesión en Firebase
+                finish(); // Terminar la actividad actual
+                startActivity(new Intent(MainActivity.this, LoginActivity.class)); // Navegar a la actividad de login
             }
         });
 
-        // Set up "Add Task" button
+        // Configuración del botón "Agregar tarea"
         btnAgregar = findViewById(R.id.btnAgregar);
         btnAgregar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Navigate to "Create Task" activity
+                // Navegar a la actividad de crear una nueva tarea
                 startActivity(new Intent(MainActivity.this, CrearTareaActivity.class));
             }
         });
     }
 
+    // Este método está marcado con @SuppressLint porque el código no realiza una acción en este método
+    // (el método solo se invoca en onCreate(), pero no tiene lógica adicional).
     @SuppressLint("NotifyDataSetChanged")
     private void setUpRecyclerView() {
-        // Configuration is already handled in onCreate
+        // La configuración del RecyclerView ya se maneja en el método onCreate(), por lo que no es necesario hacer nada adicional aquí
     }
 
+    // Configurar el SearchView para realizar búsquedas en las tareas
     private void search_view() {
+        // Establecer el listener para capturar las acciones de texto en el SearchView
         search_view.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                textSearch(query);
-                return false;
+                textSearch(query); // Llamar al método de búsqueda con el texto ingresado
+                return false; // No hacer nada adicional al enviar la consulta
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                textSearch(newText);
-                return false;
+                textSearch(newText); // Llamar al método de búsqueda cuando el texto cambia
+                return false; // No hacer nada adicional al cambiar el texto
             }
         });
     }
 
+    // Método que realiza la búsqueda en la base de datos de Firestore según el texto ingresado
     public void textSearch(String queryText) {
-        // Define the query based on the search input
+        // Definir la consulta basada en el texto ingresado por el usuario en el SearchView
         Query query = mFirestore.collection("tareas")
-                .orderBy("titulo")
-                .startAt(queryText)
-                .endAt(queryText + "~");
+                .orderBy("titulo") // Ordenar los resultados por el título de la tarea
+                .startAt(queryText) // Iniciar la búsqueda desde el texto ingresado
+                .endAt(queryText + "~"); // Finalizar la búsqueda hasta el texto ingresado con el carácter "~" al final
 
+        // Crear nuevas opciones para el adaptador con la nueva consulta
         FirestoreRecyclerOptions<Tarea> firestoreRecyclerOptions =
                 new FirestoreRecyclerOptions.Builder<Tarea>()
                         .setQuery(query, Tarea.class)
                         .build();
 
-        mAdapter.updateOptions(firestoreRecyclerOptions); // Update the adapter with new query
-        mAdapter.startListening();
-        mRecycler.setAdapter(mAdapter);
+        // Actualizar las opciones del adaptador y comenzar a escuchar los resultados de Firestore
+        mAdapter.updateOptions(firestoreRecyclerOptions); // Actualizar las opciones del adaptador con la nueva consulta
+        mAdapter.startListening(); // Iniciar la escucha de cambios en la base de datos
+        mRecycler.setAdapter(mAdapter); // Establecer el adaptador actualizado al RecyclerView
     }
 
+    // Ciclo de vida de la actividad: iniciar el adaptador para escuchar actualizaciones de Firestore
     @Override
     protected void onStart() {
         super.onStart();
         if (mAdapter != null) {
-            mAdapter.startListening(); // Start listening for Firestore updates
+            mAdapter.startListening(); // Comenzar a escuchar las actualizaciones de Firestore
         }
     }
 
+    // Ciclo de vida de la actividad: detener la escucha de Firestore cuando la actividad deja de estar activa
     @Override
     protected void onStop() {
         super.onStop();
         if (mAdapter != null) {
-            mAdapter.stopListening(); // Stop listening for updates when activity is not visible
+            mAdapter.stopListening(); // Detener la escucha de cambios en Firestore cuando la actividad no está visible
         }
     }
 
+    // Ciclo de vida de la actividad: forzar la actualización del RecyclerView cuando la actividad vuelve a estar visible
     @Override
     protected void onResume() {
         super.onResume();
         if (mAdapter != null) {
-            mAdapter.notifyDataSetChanged(); // Force RecyclerView to refresh when returning to MainActivity
+            mAdapter.notifyDataSetChanged(); // Forzar que el RecyclerView se actualice cuando la actividad regresa a primer plano
         }
     }
 }

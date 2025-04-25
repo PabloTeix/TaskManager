@@ -1,3 +1,4 @@
+//clase encargada de crear tareas
 package com.example.taskmanager.views;
 
 import android.os.Bundle;
@@ -115,42 +116,6 @@ public class CrearTareaActivity extends AppCompatActivity {
             });
 
         }
-
-
-
-
-
-
-        // Definir el evento de clic para agregar tarea
-   /*     btnAgregar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Obtener los valores ingresados
-                String titulotarea = titulo_tarea.getText().toString().trim();
-                String descripciontarea = descripcion_tarea.getText().toString().trim();
-                String fechaInicioTexto = inicio_tarea.getText().toString().trim();
-
-                // Verificar que los campos no estén vacíos
-                if (titulotarea.isEmpty() || descripciontarea.isEmpty() || fechaInicioTexto.isEmpty()) {
-                    Toast.makeText(CrearTareaActivity.this, "Por favor ingresa todos los datos", Toast.LENGTH_SHORT).show();
-                    return; // Evitar continuar si algún campo está vacío
-                }
-
-                // Verificar el formato de la fecha
-                SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-                Date iniciotarea = null;
-                try {
-                    iniciotarea = formatoFecha.parse(fechaInicioTexto);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                    Toast.makeText(CrearTareaActivity.this, "Formato de fecha incorrecto", Toast.LENGTH_SHORT).show();
-                    return; // No continuar si la fecha tiene un formato incorrecto
-                }
-
-                // Llamar al método para guardar la tarea si todo es válido
-                postTarea(titulotarea, descripciontarea, iniciotarea);
-            }
-        }); */
     }
 
     private void updateTarea(String titulotarea, String descripcionTarea, Date fechaInicio, String id) {

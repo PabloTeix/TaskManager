@@ -25,9 +25,13 @@ import java.util.Map;
 
 public class RegisterActivity extends AppCompatActivity {
 
+    // Se declaran las variables para los campos de entrada de texto
     private EditText etFullName, etEmail, etPassword, etConfirmPassword, etPhone, etAddress;
+    // Botón para ejecutar el registro
     private Button btnRegister;
+    // Barra de progreso que aparece mientras se realiza el registro
     private ProgressBar progressBar;
+    // Instancias de Firebase para autenticación y base de datos
     FirebaseFirestore mFirestore;
     FirebaseAuth mAuth;
 
@@ -35,10 +39,16 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.register_activity);
+
+        // Inicialización de Firebase y vistas
         mFirestore = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
 
-        // Inicializar elementos de UI
+        // Configurar el título de la actividad y habilitar la opción de retroceder en la barra de acción
+        this.setTitle("Registro");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        // Inicializar los campos de entrada de texto y el botón
         etFullName = findViewById(R.id.etFullName);
         etEmail = findViewById(R.id.etEmail);
         etPassword = findViewById(R.id.etPassword);
@@ -48,8 +58,9 @@ public class RegisterActivity extends AppCompatActivity {
         btnRegister = findViewById(R.id.btnRegister);
         progressBar = findViewById(R.id.progressBar);
 
-        // Evento del botón registrar
+        // Configurar el evento para el botón de registro
         btnRegister.setOnClickListener(v -> {
+            // Obtener los valores de los campos de texto
             String fullName = etFullName.getText().toString().trim();
             String email = etEmail.getText().toString().trim();
             String password = etPassword.getText().toString().trim();
@@ -57,14 +68,14 @@ public class RegisterActivity extends AppCompatActivity {
             String phone = etPhone.getText().toString().trim();
             String address = etAddress.getText().toString().trim();
 
-            // Validar campos vacíos
+            // Validar que los campos no estén vacíos
             if (TextUtils.isEmpty(fullName) || TextUtils.isEmpty(email) || TextUtils.isEmpty(password) ||
                     TextUtils.isEmpty(confirmPassword) || TextUtils.isEmpty(phone) || TextUtils.isEmpty(address)) {
                 Toast.makeText(RegisterActivity.this, "Todos los campos son obligatorios", Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            // Validar formato de email
+            // Validar que el correo tenga el formato correcto
             if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
                 Toast.makeText(RegisterActivity.this, "Correo electrónico no válido", Toast.LENGTH_SHORT).show();
                 return;
@@ -76,65 +87,93 @@ public class RegisterActivity extends AppCompatActivity {
                 return;
             }
 
-            // Validar longitud mínima de contraseña
+            // Validar que la contraseña tenga al menos 6 caracteres
             if (password.length() < 6) {
                 Toast.makeText(RegisterActivity.this, "La contraseña debe tener al menos 6 caracteres", Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            // Validar que el teléfono solo tenga dígitos
+            // Validar que el teléfono solo contenga dígitos
             if (!phone.matches("\\d+")) {
                 Toast.makeText(RegisterActivity.this, "El teléfono solo debe contener números", Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            // Validar longitud del número de teléfono
+            // Validar que el teléfono tenga al menos 9 caracteres
             if (phone.length() < 9) {
                 Toast.makeText(RegisterActivity.this, "El número de teléfono es muy corto", Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            // Si pasa todas las validaciones, registrar usuario
+            // Si pasa todas las validaciones, llamar a la función para registrar al usuario
             registerUser(email, password, confirmPassword, fullName, phone, address);
         });
     }
 
+    // Función encargada de registrar un nuevo usuario en Firebase Authentication
     private void registerUser(String email, String password, String confirmPassword, String fullName, String phone, String address) {
+        // Crear el usuario en Firebase Authentication
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        String id = mAuth.getCurrentUser().getUid();
-                        Map<String, Object> map = new HashMap<>();
-                        map.put("id", id);
-                        map.put("nombre", fullName);
-                        map.put("email", email);
-                        map.put("contraseña", password);
-                        map.put("telefono", phone);
-                        map.put("direccion", address);
+                        // Si el registro es exitoso
+                        if (task.isSuccessful()) {
+                            // Obtener el UID del usuario recién creado
+                            String id = mAuth.getCurrentUser().getUid();
 
-                        mFirestore.collection("user").document(id).set(map)
-                                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                    @Override
-                                    public void onSuccess(Void unused) {
-                                        finish();
-                                        startActivity(new Intent(RegisterActivity.this, MainActivity.class));
-                                        Toast.makeText(RegisterActivity.this, "Usuario registrado con éxito", Toast.LENGTH_SHORT).show();
-                                    }
-                                })
-                                .addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-                                        Toast.makeText(RegisterActivity.this, "Error al guardar", Toast.LENGTH_SHORT).show();
-                                    }
-                                });
+                            // Crear un mapa con los datos adicionales del usuario
+                            Map<String, Object> map = new HashMap<>();
+                            map.put("id", id); // ID del usuario
+                            map.put("nombre", fullName); // Nombre del usuario
+                            map.put("email", email); // Correo electrónico
+                            map.put("contraseña", password); // Contraseña del usuario
+                            map.put("telefono", phone); // Teléfono del usuario
+                            map.put("direccion", address); // Dirección del usuario
+
+                            // Guardar los datos en la colección 'user' de Firestore
+                            mFirestore.collection("user").document(id).set(map)
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void unused) {
+                                            // Si los datos se guardan correctamente, finalizar la actividad de registro
+                                            finish();
+                                            // Redirigir a la actividad principal (MainActivity)
+                                            startActivity(new Intent(RegisterActivity.this, MainActivity.class));
+                                            // Mostrar un mensaje de éxito
+                                            Toast.makeText(RegisterActivity.this, "Usuario registrado con éxito", Toast.LENGTH_SHORT).show();
+                                        }
+                                    })
+                                    .addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            // Mostrar un mensaje de error si no se puede guardar los datos
+                                            Toast.makeText(RegisterActivity.this, "Error al guardar", Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+                        }
                     }
                 })
+                // Si el registro en Firebase Authentication falla
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
+                        // Mostrar un mensaje de error
                         Toast.makeText(RegisterActivity.this, "Error al registrar", Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
+
+    // Implementa el método onSupportNavigateUp para manejar el retroceso en la barra de acción
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed(); // Llamar al método de retroceso estándar
+        return true;
+    }
+
+    // Implementa el método onBackPressed para manejar el retroceso con el botón físico
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed(); // Llamar al comportamiento estándar de retroceso
     }
 }
