@@ -51,6 +51,11 @@
         android:label="@string/app_name"
         android:theme="@style/Theme.TaskManager" />
 
+        <activity
+            android:name=".views.ProfileActivity"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.TaskManager" />
 </application>
 
     </manifest>

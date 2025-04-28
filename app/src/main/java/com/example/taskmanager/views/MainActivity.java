@@ -1,25 +1,23 @@
 package com.example.taskmanager.views;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.SearchView;
 import android.widget.Toast;
 
-import com.example.taskmanager.R;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.Query;
-
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.taskmanager.R;
 import com.example.taskmanager.adapter.AdapterTarea;
 import com.example.taskmanager.models.Tarea;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.Query;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -35,7 +33,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
 
         // Inicializar Firebase
@@ -82,8 +79,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(new Intent(MainActivity.this, LoginActivity.class));
         });
 
-        btnAgregar.setOnClickListener(v ->
-                startActivity(new Intent(MainActivity.this, CrearTareaActivity.class)));
+        btnAgregar.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, CrearTareaActivity.class)));
 
         search_view();  // Configurar búsqueda
     }
@@ -147,4 +143,29 @@ public class MainActivity extends AppCompatActivity {
             mAdapter.notifyDataSetChanged();
         }
     }
+
+    // Inflar el menú
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu); // Inflar el archivo XML del menú
+        return true;
+    }
+
+    // Manejar la selección del menú
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId(); // Guardar el ID para evitar errores de constantes no reconocidas
+
+        if (id == R.id.item_profile) {
+            // Redirigir a la actividad del perfil
+            startActivity(new Intent(MainActivity.this, ProfileActivity.class));
+            return true;
+        } else if (id == R.id.item_main_menu) {
+            // Si ya estás en el menú principal, no hacer nada
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item); // Manejo predeterminado
+    }
+
 }
