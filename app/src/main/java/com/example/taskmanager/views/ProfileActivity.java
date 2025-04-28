@@ -1,3 +1,5 @@
+//En esta rama me encargare de la pantalla del perfil de usuario,
+//aqui se podra cerrar sesion,poner o desactivar modo oscuro y cambiar contrasena
 package com.example.taskmanager.views;
 
 import android.os.Bundle;
