@@ -1,4 +1,3 @@
-//clase encargada de crear tareas
 package com.example.taskmanager.views;
 
 import android.os.Bundle;
@@ -15,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.taskmanager.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -31,6 +31,7 @@ public class CrearTareaActivity extends AppCompatActivity {
     Button btnAgregar;
     EditText titulo_tarea, descripcion_tarea, inicio_tarea;
     private FirebaseFirestore mfirestore;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,169 +42,125 @@ public class CrearTareaActivity extends AppCompatActivity {
         this.setTitle("Añadir tarea");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        String id = getIntent().getStringExtra("id_tarea");
         mfirestore = FirebaseFirestore.getInstance();
+        mAuth = FirebaseAuth.getInstance();
 
         titulo_tarea = findViewById(R.id.titulo);
         descripcion_tarea = findViewById(R.id.descripcion);
         inicio_tarea = findViewById(R.id.fecha_inicio);
         btnAgregar = findViewById(R.id.button_añadir);
 
-        if(id == null || id == ""){
-            btnAgregar.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    // Obtener los valores ingresados
-                    String titulotarea = titulo_tarea.getText().toString().trim();
-                    String descripciontarea = descripcion_tarea.getText().toString().trim();
-                    String fechaInicioTexto = inicio_tarea.getText().toString().trim();
+        String id = getIntent().getStringExtra("id_tarea");
 
-                    // Verificar que los campos no estén vacíos
-                    if (titulotarea.isEmpty() || descripciontarea.isEmpty() || fechaInicioTexto.isEmpty()) {
-                        Toast.makeText(CrearTareaActivity.this, "Por favor ingresa todos los datos", Toast.LENGTH_SHORT).show();
-                        return; // Evitar continuar si algún campo está vacío
-                    }
+        if (id == null || id.isEmpty()) {
+            btnAgregar.setOnClickListener(v -> {
+                String titulotarea = titulo_tarea.getText().toString().trim();
+                String descripciontarea = descripcion_tarea.getText().toString().trim();
+                String fechaInicioTexto = inicio_tarea.getText().toString().trim();
 
-                    // Verificar el formato de la fecha
-                    SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-                    Date iniciotarea = null;
-                    try {
-                        iniciotarea = formatoFecha.parse(fechaInicioTexto);
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                        Toast.makeText(CrearTareaActivity.this, "Formato de fecha incorrecto", Toast.LENGTH_SHORT).show();
-                        return; // No continuar si la fecha tiene un formato incorrecto
-                    }
-
-                    // Llamar al método para guardar la tarea si todo es válido
-                    postTarea(titulotarea, descripciontarea, iniciotarea);
+                if (titulotarea.isEmpty() || descripciontarea.isEmpty() || fechaInicioTexto.isEmpty()) {
+                    Toast.makeText(this, "Por favor ingresa todos los datos", Toast.LENGTH_SHORT).show();
+                    return;
                 }
-            });
 
-        }else{
+                SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+                Date iniciotarea;
+                try {
+                    iniciotarea = formatoFecha.parse(fechaInicioTexto);
+                } catch (ParseException e) {
+                    Toast.makeText(this, "Formato de fecha incorrecto", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                postTarea(titulotarea, descripciontarea, iniciotarea);
+            });
+        } else {
             this.setTitle("Editar tarea");
             btnAgregar.setText("Confirmar cambios");
             getTarea(id);
-            btnAgregar.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    String titulotarea = titulo_tarea.getText().toString().trim();
-                    String descripciontarea = descripcion_tarea.getText().toString().trim();
-                    String fechaInicioTexto = inicio_tarea.getText().toString().trim();
+            btnAgregar.setOnClickListener(v -> {
+                String titulotarea = titulo_tarea.getText().toString().trim();
+                String descripciontarea = descripcion_tarea.getText().toString().trim();
+                String fechaInicioTexto = inicio_tarea.getText().toString().trim();
 
-                    if (titulotarea.isEmpty() || descripciontarea.isEmpty() || fechaInicioTexto.isEmpty()) {
-                        Toast.makeText(CrearTareaActivity.this, "Por favor ingresa todos los datos", Toast.LENGTH_SHORT).show();
-                        return; // Evitar continuar si algún campo está vacío
-                    }
-
-                    // Verificar el formato de la fecha
-                    SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-                    Date iniciotarea = null;
-                    try {
-                        iniciotarea = formatoFecha.parse(fechaInicioTexto);
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                        Toast.makeText(CrearTareaActivity.this, "Formato de fecha incorrecto", Toast.LENGTH_SHORT).show();
-                        return; // No continuar si la fecha tiene un formato incorrecto
-                    }
-
-                    // Llamar al método para guardar la tarea si todo es válido
-                    updateTarea(titulotarea, descripciontarea, iniciotarea,id);
-
-
-
+                if (titulotarea.isEmpty() || descripciontarea.isEmpty() || fechaInicioTexto.isEmpty()) {
+                    Toast.makeText(this, "Por favor ingresa todos los datos", Toast.LENGTH_SHORT).show();
+                    return;
                 }
-            });
 
+                SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+                Date iniciotarea;
+                try {
+                    iniciotarea = formatoFecha.parse(fechaInicioTexto);
+                } catch (ParseException e) {
+                    Toast.makeText(this, "Formato de fecha incorrecto", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                updateTarea(titulotarea, descripciontarea, iniciotarea, id);
+            });
         }
     }
 
-    private void updateTarea(String titulotarea, String descripcionTarea, Date fechaInicio, String id) {
-        // Crear el mapa de datos para Firestore
+    private void updateTarea(String titulo, String descripcion, Date fecha, String id) {
         Map<String, Object> map = new HashMap<>();
-        map.put("titulo", titulotarea);
-        map.put("descripcion", descripcionTarea);
-        map.put("fecha_inicio", fechaInicio);
+        map.put("titulo", titulo);
+        map.put("descripcion", descripcion);
+        map.put("fecha_inicio", fecha);
 
-        mfirestore.collection("tareas").document(id).update(map).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void unused) {
-                Toast.makeText(getApplicationContext(), "Tarea actualizada correctamente", Toast.LENGTH_SHORT).show();
-                finish();
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(getApplicationContext(), "Error al actualizar la tarea", Toast.LENGTH_SHORT).show();
-            }
-        });
-
+        mfirestore.collection("tareas").document(id).update(map)
+                .addOnSuccessListener(unused -> {
+                    Toast.makeText(getApplicationContext(), "Tarea actualizada correctamente", Toast.LENGTH_SHORT).show();
+                    finish();
+                })
+                .addOnFailureListener(e -> Toast.makeText(getApplicationContext(), "Error al actualizar la tarea", Toast.LENGTH_SHORT).show());
     }
 
-    private void postTarea(String titulotarea, String descripcionTarea, Date fechaInicio) {
-        // Crear el mapa de datos para Firestore
-        Map<String, Object> map = new HashMap<>();
-        map.put("titulo", titulotarea);
-        map.put("descripcion", descripcionTarea);
-        map.put("fecha_inicio", fechaInicio);
+    private void postTarea(String titulo, String descripcion, Date fecha) {
+        String userId = mAuth.getCurrentUser().getUid();  // 🔒 UID del usuario actual
 
-        // Agregar tarea a Firestore
+        Map<String, Object> map = new HashMap<>();
+        map.put("titulo", titulo);
+        map.put("descripcion", descripcion);
+        map.put("fecha_inicio", fecha);
+        map.put("userId", userId);  // 🔐 Asociar la tarea al usuario
+
         mfirestore.collection("tareas").add(map)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                    @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        Toast.makeText(getApplicationContext(), "Tarea creada exitosamente", Toast.LENGTH_SHORT).show();
-                        // Usar un Handler para asegurar que la tarea se haya guardado correctamente antes de cerrar
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                finish(); // Cerrar la actividad después de un pequeño retraso
-                            }
-                        }, 1000);
-                    }
+                .addOnSuccessListener(documentReference -> {
+                    Toast.makeText(getApplicationContext(), "Tarea creada exitosamente", Toast.LENGTH_SHORT).show();
+                    new Handler().postDelayed(this::finish, 1000);
                 })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(getApplicationContext(), "Error al ingresar datos", Toast.LENGTH_SHORT).show();
-                        e.printStackTrace(); // Esto ayudará a depurar si el error persiste
-                    }
+                .addOnFailureListener(e -> {
+                    Toast.makeText(getApplicationContext(), "Error al ingresar datos", Toast.LENGTH_SHORT).show();
+                    e.printStackTrace();
                 });
     }
-    private void getTarea(String id){
-        mfirestore.collection("tareas").document(id).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                String tituloTarea = documentSnapshot.getString("titulo");
-                String descripcionTarea = documentSnapshot.getString("descripcion");
-                Date inicioTarea = documentSnapshot.getDate("fecha_inicio");
 
-                titulo_tarea.setText(tituloTarea);
-                descripcion_tarea.setText(descripcionTarea);
+    private void getTarea(String id) {
+        mfirestore.collection("tareas").document(id).get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    String titulo = documentSnapshot.getString("titulo");
+                    String descripcion = documentSnapshot.getString("descripcion");
+                    Date fecha = documentSnapshot.getDate("fecha_inicio");
 
-                if (inicioTarea != null) {
-                    SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-                    String fechaFormateada = formatoFecha.format(inicioTarea);
-                    inicio_tarea.setText(fechaFormateada);
-                }
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(getApplicationContext(), "Error al obtener los datos", Toast.LENGTH_SHORT).show();
-            }
-        });
+                    titulo_tarea.setText(titulo);
+                    descripcion_tarea.setText(descripcion);
+                    if (fecha != null) {
+                        String fechaFormateada = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(fecha);
+                        inicio_tarea.setText(fechaFormateada);
+                    }
+                })
+                .addOnFailureListener(e -> Toast.makeText(getApplicationContext(), "Error al obtener los datos", Toast.LENGTH_SHORT).show());
     }
-
 
     @Override
     public boolean onSupportNavigateUp() {
-        onBackPressed(); // Manejar la acción de retroceder en el ActionBar
+        onBackPressed();
         return true;
     }
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed(); // Llamar al comportamiento estándar para el retroceso
+        super.onBackPressed();
     }
 }
