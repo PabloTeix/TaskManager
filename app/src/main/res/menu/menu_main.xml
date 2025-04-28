@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <!-- Opción para ir al perfil -->
+    <item
+        android:id="@+id/item_profile"
+        android:title="Perfil"
+        android:icon="@drawable/ic_perfil"
+        app:showAsAction="ifRoom" />
+
+    <!-- Opción para ir al menú principal -->
+    <item
+        android:id="@+id/item_main_menu"
+        android:title="Menú Principal"
+        android:icon="@drawable/ic_principal"
+        app:showAsAction="ifRoom" />
+</menu>
