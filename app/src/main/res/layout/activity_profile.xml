@@ -3,14 +3,66 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:gravity="center">
 
+    <!-- Título del perfil -->
+
+    <!-- Nombre del usuario -->
     <TextView
         android:id="@+id/tvProfileInfo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Perfil del usuario" />
+        android:layout_marginBottom="20dp"
+        android:text="Perfil del usuario"
+        android:textSize="18sp"
+        android:textStyle="bold" />
 
-    <!-- Puedes agregar más elementos aquí para mostrar detalles del usuario -->
+    <TextView
+        android:id="@+id/tvNombreUsuario"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nombre: "
+        android:textSize="16sp"
+        android:layout_marginBottom="8dp"/>
 
+    <!-- Correo del usuario -->
+    <TextView
+        android:id="@+id/tvEmailUsuario"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Correo: "
+        android:textSize="16sp"
+        android:layout_marginBottom="8dp"/>
+
+    <!-- Botón para cerrar sesión -->
+    <Button
+        android:id="@+id/btn_cerrar_sesion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Cerrar sesión"
+        android:textColor="@android:color/white"
+        android:background="@android:color/holo_red_dark"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- Switch para activar/desactivar el modo oscuro -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Modo oscuro"
+        android:layout_marginBottom="8dp"/>
+
+    <Switch
+        android:id="@+id/switchModoOscuro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- Botón para cambiar la contraseña -->
+    <Button
+        android:id="@+id/btn_cambiar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Cambiar contraseña"
+        android:layout_marginBottom="16dp"/>
 </LinearLayout>
