@@ -7,16 +7,6 @@
     android:gravity="top"
     android:layout_marginTop="24dp"> <!-- Agregué un margen superior aquí -->
 
-    <!-- Título del perfil -->
-    <TextView
-        android:id="@+id/tvProfileInfo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Perfil del usuario"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:layout_marginTop="0dp"
-    android:layout_marginBottom="24dp" />
 
     <!-- Nombre del usuario -->
     <TextView
@@ -62,6 +52,25 @@
         android:text="Direccion: "
         android:textSize="16sp"
         android:layout_marginBottom="16dp"/>
+
+    <!-- Tareas activas -->
+    <TextView
+        android:id="@+id/tvContadorActivas"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tareas activas: 0"
+        android:textSize="16sp"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- Tareas completadas -->
+    <TextView
+        android:id="@+id/tvContadorCompletadas"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tareas completadas: 0"
+        android:textSize="16sp"
+        android:layout_marginBottom="16dp"/>
+
 
     <!-- Botón para cerrar sesión -->
     <Button

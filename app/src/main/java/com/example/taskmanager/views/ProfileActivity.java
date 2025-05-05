@@ -39,7 +39,7 @@ public class ProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-        getSupportActionBar().setTitle("Perfil");
+        getSupportActionBar().setTitle("Perfil del usuario");
 
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
