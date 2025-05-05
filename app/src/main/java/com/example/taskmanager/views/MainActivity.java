@@ -16,79 +16,68 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.taskmanager.R;
 import com.example.taskmanager.adapter.AdapterTarea;
 import com.example.taskmanager.models.Tarea;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
-import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.ListenerRegistration;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button btnAgregar; //btn_Cerrar;
+    Button btnAgregar;
     RecyclerView mRecycler;
     AdapterTarea mAdapter;
     FirebaseFirestore mFirestore;
     FirebaseAuth mAuth;
     SearchView search_view;
     TextView tvContadorActivas;
-    ListenerRegistration listenerRegistroActivas; // Listener para el contador de tareas activas
+    ListenerRegistration listenerRegistroActivas;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Inicializar Firebase
         mFirestore = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
 
         FirebaseUser currentUser = mAuth.getCurrentUser();
-
         if (currentUser == null) {
-            // Usuario no logueado; redirigir al login o mostrar error
             Toast.makeText(this, "Usuario no autenticado", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(MainActivity.this, LoginActivity.class));
-            finish(); // Evita que siga ejecutando MainActivity
+            finish();
             return;
         }
 
-        String userId = currentUser.getUid();  // ✅ Solo accedemos si no es null
+        String userId = currentUser.getUid();
 
-        // Configurar RecyclerView
         mRecycler = findViewById(R.id.recyclerViewSingle);
         mRecycler.setLayoutManager(new LinearLayoutManager(this));
 
-        // Consultar solo las tareas del usuario actual y no completadas
         Query query = mFirestore.collection("tareas")
                 .whereEqualTo("userId", userId)
-                .whereEqualTo("completada", false);  // Solo tareas no completadas
+                .whereEqualTo("completada", false);
 
         FirestoreRecyclerOptions<Tarea> firestoreRecyclerOptions =
                 new FirestoreRecyclerOptions.Builder<Tarea>()
                         .setQuery(query, Tarea.class)
                         .build();
 
-        // Asignar adaptador
         mAdapter = new AdapterTarea(firestoreRecyclerOptions, this, false);
         mRecycler.setAdapter(mAdapter);
 
-        // Inicializar el TextView para el contador de tareas activas
         tvContadorActivas = findViewById(R.id.tareas_activas);
-
-        // Botones y búsqueda
         search_view = findViewById(R.id.search);
         btnAgregar = findViewById(R.id.btnAgregar);
 
         btnAgregar.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, CrearTareaActivity.class)));
-
-        search_view();  // Configurar búsqueda
+        search_view();
     }
 
-    // Configuración de búsqueda
     private void search_view() {
         search_view.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -105,12 +94,11 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    // Búsqueda filtrada por usuario y título
     public void textSearch(String queryText) {
         String userId = mAuth.getCurrentUser().getUid();
         Query query = mFirestore.collection("tareas")
                 .whereEqualTo("userId", userId)
-                .whereEqualTo("completada", false) // Solo tareas no completadas
+                .whereEqualTo("completada", false)
                 .orderBy("titulo")
                 .startAt(queryText)
                 .endAt(queryText + "~");
@@ -125,25 +113,21 @@ public class MainActivity extends AppCompatActivity {
         mRecycler.setAdapter(mAdapter);
     }
 
-    // Contar tareas activas en tiempo real
     private void contarTareasActivas() {
         String userId = mAuth.getCurrentUser().getUid();
         Query queryActivas = mFirestore.collection("tareas")
                 .whereEqualTo("userId", userId)
-                .whereEqualTo("completada", false); // Tareas activas (no completadas)
+                .whereEqualTo("completada", false);
 
-        listenerRegistroActivas = queryActivas.addSnapshotListener(new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(QuerySnapshot snapshots, FirebaseFirestoreException e) {
-                if (e != null) {
-                    Toast.makeText(MainActivity.this, "Error al contar tareas", Toast.LENGTH_SHORT).show();
-                    return;
-                }
+        listenerRegistroActivas = queryActivas.addSnapshotListener((snapshots, e) -> {
+            if (e != null) {
+                Toast.makeText(MainActivity.this, "Error al contar tareas activas", Toast.LENGTH_SHORT).show();
+                return;
+            }
 
-                if (snapshots != null) {
-                    int total = snapshots.size();
-                    tvContadorActivas.setText("Tienes activas: " + total + " tareas");
-                }
+            if (snapshots != null) {
+                int totalActivas = snapshots.size();
+                tvContadorActivas.setText("Tienes activas: " + totalActivas + " tareas");
             }
         });
     }
@@ -151,7 +135,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        // Iniciar el listener para contar las tareas activas
         contarTareasActivas();
 
         if (mAdapter != null) {
@@ -166,7 +149,6 @@ public class MainActivity extends AppCompatActivity {
             mAdapter.stopListening();
         }
 
-        // Detener el listener para el contador de tareas activas
         if (listenerRegistroActivas != null) {
             listenerRegistroActivas.remove();
         }
@@ -180,30 +162,26 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    // Inflar el menú
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu); // Inflar el archivo XML del menú
+        getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
-    // Manejar la selección del menú
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId(); // Guardar el ID para evitar errores de constantes no reconocidas
+        int id = item.getItemId();
 
         if (id == R.id.item_profile) {
-            // Redirigir a la actividad del perfil
             startActivity(new Intent(MainActivity.this, ProfileActivity.class));
             return true;
         } else if (id == R.id.item_main_menu) {
-            // Si ya estás en el menú principal, no hacer nada
             return true;
         } else if (id == R.id.item_completadas_menu) {
             startActivity(new Intent(MainActivity.this, CompletadasActivity.class));
             return true;
         }
 
-        return super.onOptionsItemSelected(item); // Manejo predeterminado
+        return super.onOptionsItemSelected(item);
     }
 }

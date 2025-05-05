@@ -23,6 +23,7 @@ import com.google.firebase.auth.FirebaseAuthRecentLoginRequiredException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -30,6 +31,7 @@ import java.util.Map;
 public class ProfileActivity extends AppCompatActivity {
 
     private TextView tvNombreUsuario, tvEmailUsuario, tvContraseñaUsuario, tvTelefonoUsuario, tvDireccionUsuario;
+    private TextView tvTareasActivas, tvTareasCompletadas;
     private Button btnCerrarSesion, btnCambiarContrasena;
 
     private FirebaseAuth mAuth;
@@ -49,6 +51,8 @@ public class ProfileActivity extends AppCompatActivity {
         tvContraseñaUsuario = findViewById(R.id.tvContraseñaUsuario);
         tvTelefonoUsuario = findViewById(R.id.tvTelefonoUsuario);
         tvDireccionUsuario = findViewById(R.id.tvDireccionUsuario);
+        tvTareasActivas = findViewById(R.id.tvContadorActivas);
+        tvTareasCompletadas = findViewById(R.id.tvContadorCompletadas);
         btnCerrarSesion = findViewById(R.id.btn_cerrar_sesion);
         btnCambiarContrasena = findViewById(R.id.btn_cambiar);
 
@@ -56,31 +60,24 @@ public class ProfileActivity extends AppCompatActivity {
 
         if (user != null) {
             String uid = user.getUid();
-            Log.d("ProfileActivity", "UID del usuario: " + uid);
 
+            // Datos personales
             db.collection("user").document(uid)
                     .get()
                     .addOnSuccessListener(documentSnapshot -> {
                         if (documentSnapshot.exists()) {
-                            String nombre = documentSnapshot.getString("nombre");
-                            String email = documentSnapshot.getString("email");
-                            String contraseña = documentSnapshot.getString("contraseña");
-                            String telefono = documentSnapshot.getString("telefono");
-                            String direccion = documentSnapshot.getString("direccion");
-
-                            tvNombreUsuario.setText("Nombre: " + nombre);
-                            tvEmailUsuario.setText("Correo: " + email);
-                            tvContraseñaUsuario.setText("Contraseña: "+ contraseña);
-                            tvTelefonoUsuario.setText("Telefono: "+ telefono);
-                            tvDireccionUsuario.setText("Direccion: "+ direccion);
-
-                        } else {
-                            Log.e("ProfileActivity", "No se encontraron datos para el usuario.");
+                            tvNombreUsuario.setText("Nombre: " + documentSnapshot.getString("nombre"));
+                            tvEmailUsuario.setText("Correo: " + documentSnapshot.getString("email"));
+                            tvContraseñaUsuario.setText("Contraseña: " + documentSnapshot.getString("contraseña"));
+                            tvTelefonoUsuario.setText("Teléfono: " + documentSnapshot.getString("telefono"));
+                            tvDireccionUsuario.setText("Dirección: " + documentSnapshot.getString("direccion"));
                         }
                     })
-                    .addOnFailureListener(e -> Log.e("ProfileActivity", "Error al obtener los datos: ", e));
-        } else {
-            Log.e("ProfileActivity", "No hay usuario autenticado");
+                    .addOnFailureListener(e -> Log.e("ProfileActivity", "Error al obtener los datos", e));
+
+            // Contar tareas activas y completadas
+            contarTareas(uid, true);  // Activas
+            contarTareas(uid, false); // Completadas
         }
 
         btnCerrarSesion.setOnClickListener(v -> {
@@ -92,6 +89,29 @@ public class ProfileActivity extends AppCompatActivity {
         btnCambiarContrasena.setOnClickListener(v -> mostrarDialogoCambioContrasena());
     }
 
+    private void contarTareas(String userId, boolean activas) {
+        Query query = db.collection("tareas")
+                .whereEqualTo("userId", userId)
+                .whereEqualTo("completada", !activas);  // NOT completada = activas
+
+        query.get().addOnSuccessListener(queryDocumentSnapshots -> {
+            int total = queryDocumentSnapshots.size();
+            if (activas) {
+                tvTareasActivas.setText("Tareas activas: " + total);
+            } else {
+                tvTareasCompletadas.setText("Tareas completadas: " + total);
+            }
+        }).addOnFailureListener(e -> {
+            Log.e("ProfileActivity", "Error al contar tareas", e);
+            if (activas) {
+                tvTareasActivas.setText("Error al contar activas");
+            } else {
+                tvTareasCompletadas.setText("Error al contar completadas");
+            }
+        });
+    }
+
+    // Menú
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -107,7 +127,7 @@ public class ProfileActivity extends AppCompatActivity {
         } else if (id == R.id.item_main_menu) {
             startActivity(new Intent(ProfileActivity.this, MainActivity.class));
             return true;
-        }else if(id == R.id.item_completadas_menu) {
+        } else if (id == R.id.item_completadas_menu) {
             startActivity(new Intent(ProfileActivity.this, CompletadasActivity.class));
             return true;
         }
@@ -173,10 +193,7 @@ public class ProfileActivity extends AppCompatActivity {
                         .addOnCompleteListener(task1 -> {
                             if (task1.isSuccessful()) {
                                 actualizarContraseñaEnFirestore(user.getUid(), nuevaContrasena);
-
-                                // Aquí actualizamos el TextView con la nueva contraseña
-                                tvContraseñaUsuario.setText("Contraseña: " + nuevaContrasena); // Actualización en la vista
-
+                                tvContraseñaUsuario.setText("Contraseña: " + nuevaContrasena);
                                 Toast.makeText(this, "Contraseña cambiada con éxito", Toast.LENGTH_SHORT).show();
                             } else {
                                 Toast.makeText(this, "Error al cambiar la contraseña: " + task1.getException().getMessage(), Toast.LENGTH_SHORT).show();
@@ -196,7 +213,6 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
     }
-
 
     private void actualizarContraseñaEnFirestore(String uid, String nuevaContrasena) {
         DocumentReference usuarioRef = db.collection("user").document(uid);
