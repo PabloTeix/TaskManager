@@ -17,9 +17,9 @@ import com.example.taskmanager.adapter.AdapterTarea;
 import com.example.taskmanager.models.Tarea;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -55,9 +55,10 @@ public class MainActivity extends AppCompatActivity {
         mRecycler = findViewById(R.id.recyclerViewSingle);
         mRecycler.setLayoutManager(new LinearLayoutManager(this));
 
-        // Consultar solo las tareas del usuario actual
+        // Consultar solo las tareas del usuario actual y no completadas
         Query query = mFirestore.collection("tareas")
-                .whereEqualTo("userId", userId);
+                .whereEqualTo("userId", userId)
+                .whereEqualTo("completada", false);  // Solo tareas no completadas
 
         FirestoreRecyclerOptions<Tarea> firestoreRecyclerOptions =
                 new FirestoreRecyclerOptions.Builder<Tarea>()
@@ -65,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
                         .build();
 
         // Asignar adaptador
-        mAdapter = new AdapterTarea(firestoreRecyclerOptions, this);
+        mAdapter = new AdapterTarea(firestoreRecyclerOptions, this, false);
         mRecycler.setAdapter(mAdapter);
 
         // Botones y búsqueda
@@ -106,6 +107,7 @@ public class MainActivity extends AppCompatActivity {
         String userId = mAuth.getCurrentUser().getUid();
         Query query = mFirestore.collection("tareas")
                 .whereEqualTo("userId", userId)
+                .whereEqualTo("completada", false) // Solo tareas no completadas
                 .orderBy("titulo")
                 .startAt(queryText)
                 .endAt(queryText + "~");
@@ -170,5 +172,4 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item); // Manejo predeterminado
     }
-
 }

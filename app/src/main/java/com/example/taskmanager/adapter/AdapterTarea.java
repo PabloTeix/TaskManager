@@ -29,10 +29,13 @@ public class AdapterTarea extends FirestoreRecyclerAdapter<Tarea, AdapterTarea.V
 
     private FirebaseFirestore mFirestore = FirebaseFirestore.getInstance();
     private Activity activity;
+    private boolean isCompletadasActivity;  // Variable para saber si estamos en la pantalla completadas
 
-    public AdapterTarea(@NonNull FirestoreRecyclerOptions<Tarea> options, Activity activity) {
+    // Constructor con un parámetro adicional para saber si estamos en la pantalla de tareas completadas
+    public AdapterTarea(@NonNull FirestoreRecyclerOptions<Tarea> options, Activity activity, boolean isCompletadasActivity) {
         super(options);
         this.activity = activity;
+        this.isCompletadasActivity = isCompletadasActivity;  // Recibimos el valor para controlar la visibilidad
     }
 
     @Override
@@ -47,14 +50,28 @@ public class AdapterTarea extends FirestoreRecyclerAdapter<Tarea, AdapterTarea.V
         String fechaFormateada = sdf.format(tarea.getFecha_inicio());
         holder.fecha.setText(fechaFormateada);
 
+        // Comprobar si estamos en la pantalla completadas
+        if (isCompletadasActivity) {
+            // Si estamos en la actividad de tareas completadas, ocultar el botón de editar
+            holder.button_editar.setVisibility(View.GONE);
+            holder.button_eliminar.setVisibility(View.GONE);
+        } else {
+            // Si estamos en otra actividad, mostrar el botón de editar
+            holder.button_editar.setVisibility(View.VISIBLE);
+            holder.button_eliminar.setVisibility(View.VISIBLE);
+        }
+
+        // Configurar acción para editar tarea
         holder.button_editar.setOnClickListener(v -> {
             Intent i = new Intent(activity, CrearTareaActivity.class);
             i.putExtra("id_tarea", id);
             activity.startActivity(i);
         });
 
+        // Configurar acción para eliminar tarea
         holder.button_eliminar.setOnClickListener(v -> deleteTarea(id));
 
+        // Configurar acción para completar tarea
         holder.button_completar.setOnClickListener(v -> {
             mFirestore.collection("tareas").document(id)
                     .update("completada", true)
@@ -62,7 +79,7 @@ public class AdapterTarea extends FirestoreRecyclerAdapter<Tarea, AdapterTarea.V
                     .addOnFailureListener(e -> Toast.makeText(activity, "Error al completar tarea", Toast.LENGTH_SHORT).show());
         });
 
-        // Si ya está completada, ocultar el botón (opcional)
+        // Si ya está completada, ocultar el botón de completar
         if (tarea.isCompletada()) {
             holder.button_completar.setVisibility(View.GONE);
         } else {
@@ -70,6 +87,7 @@ public class AdapterTarea extends FirestoreRecyclerAdapter<Tarea, AdapterTarea.V
         }
     }
 
+    // Método para eliminar tarea
     private void deleteTarea(String id) {
         mFirestore.collection("tareas").document(id).delete()
                 .addOnSuccessListener(unused -> Toast.makeText(activity, "Eliminado correctamente", Toast.LENGTH_SHORT).show())
@@ -83,6 +101,7 @@ public class AdapterTarea extends FirestoreRecyclerAdapter<Tarea, AdapterTarea.V
         return new ViewHolder(v);
     }
 
+    // ViewHolder para gestionar los elementos del layout de tarea
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView titulo, descripcion, fecha;
         ImageView button_eliminar, button_editar, button_completar;
