@@ -22,7 +22,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/textView1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Titulo"
@@ -36,6 +36,13 @@
             android:hint="Titulo"
             android:inputType="text" />
 
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Descripcion"
+            android:layout_marginTop="12dp" />
+
         <EditText
             android:id="@+id/descripcion"
             android:layout_width="match_parent"
@@ -43,6 +50,13 @@
             android:ems="10"
             android:hint="Descripcion"
             android:inputType="text" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Fecha inicio"
+            android:layout_marginTop="12dp" />
 
         <EditText
             android:id="@+id/fecha_inicio"
@@ -56,6 +70,7 @@
             android:id="@+id/button_añadir"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Añadir" />
+            android:text="Añadir"
+            android:layout_marginTop="10dp" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

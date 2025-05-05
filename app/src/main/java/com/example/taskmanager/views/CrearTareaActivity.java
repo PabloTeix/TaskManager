@@ -48,6 +48,11 @@ public class CrearTareaActivity extends AppCompatActivity {
         inicio_tarea = findViewById(R.id.fecha_inicio);
         btnAgregar = findViewById(R.id.button_añadir);
 
+        // Establecer la fecha actual en el campo de fecha de inicio
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        String fechaActual = sdf.format(new Date());
+        inicio_tarea.setText(fechaActual);
+
         String id = getIntent().getStringExtra("id_tarea");
 
         if (id == null || id.isEmpty()) {
