@@ -107,6 +107,9 @@ public class ProfileActivity extends AppCompatActivity {
         } else if (id == R.id.item_main_menu) {
             startActivity(new Intent(ProfileActivity.this, MainActivity.class));
             return true;
+        }else if(id == R.id.item_completadas_menu) {
+            startActivity(new Intent(ProfileActivity.this, CompletadasActivity.class));
+            return true;
         }
 
         return super.onOptionsItemSelected(item);

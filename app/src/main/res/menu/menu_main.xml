@@ -9,6 +9,13 @@
         android:icon="@drawable/ic_principal"
         app:showAsAction="ifRoom" />
 
+    <!-- Opción para ir al menú tareas completadas -->
+    <item
+        android:id="@+id/item_completadas_menu"
+        android:title="Menú Principal"
+        android:icon="@drawable/ic_pan_completada"
+        app:showAsAction="ifRoom" />
+
     <!-- Opción para ir al perfil -->
     <item
         android:id="@+id/item_profile"

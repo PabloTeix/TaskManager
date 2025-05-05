@@ -163,6 +163,9 @@ public class MainActivity extends AppCompatActivity {
         } else if (id == R.id.item_main_menu) {
             // Si ya estás en el menú principal, no hacer nada
             return true;
+        }else if (id == R.id.item_completadas_menu){
+            startActivity(new Intent(MainActivity.this, CompletadasActivity.class));
+            return true;
         }
 
         return super.onOptionsItemSelected(item); // Manejo predeterminado

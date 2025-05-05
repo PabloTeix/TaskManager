@@ -12,10 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.taskmanager.R;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -32,6 +29,7 @@ public class CrearTareaActivity extends AppCompatActivity {
     EditText titulo_tarea, descripcion_tarea, inicio_tarea;
     private FirebaseFirestore mfirestore;
     private FirebaseAuth mAuth;
+    private boolean tareaCompletada = false; // <- se usará al editar
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,10 +61,9 @@ public class CrearTareaActivity extends AppCompatActivity {
                     return;
                 }
 
-                SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
                 Date iniciotarea;
                 try {
-                    iniciotarea = formatoFecha.parse(fechaInicioTexto);
+                    iniciotarea = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).parse(fechaInicioTexto);
                 } catch (ParseException e) {
                     Toast.makeText(this, "Formato de fecha incorrecto", Toast.LENGTH_SHORT).show();
                     return;
@@ -78,6 +75,7 @@ public class CrearTareaActivity extends AppCompatActivity {
             this.setTitle("Editar tarea");
             btnAgregar.setText("Confirmar cambios");
             getTarea(id);
+
             btnAgregar.setOnClickListener(v -> {
                 String titulotarea = titulo_tarea.getText().toString().trim();
                 String descripciontarea = descripcion_tarea.getText().toString().trim();
@@ -88,25 +86,25 @@ public class CrearTareaActivity extends AppCompatActivity {
                     return;
                 }
 
-                SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
                 Date iniciotarea;
                 try {
-                    iniciotarea = formatoFecha.parse(fechaInicioTexto);
+                    iniciotarea = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).parse(fechaInicioTexto);
                 } catch (ParseException e) {
                     Toast.makeText(this, "Formato de fecha incorrecto", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                updateTarea(titulotarea, descripciontarea, iniciotarea, id);
+                updateTarea(titulotarea, descripciontarea, iniciotarea, id, tareaCompletada);
             });
         }
     }
 
-    private void updateTarea(String titulo, String descripcion, Date fecha, String id) {
+    private void updateTarea(String titulo, String descripcion, Date fecha, String id, boolean completada) {
         Map<String, Object> map = new HashMap<>();
         map.put("titulo", titulo);
         map.put("descripcion", descripcion);
         map.put("fecha_inicio", fecha);
+        map.put("completada", completada); // mantener el estado actual
 
         mfirestore.collection("tareas").document(id).update(map)
                 .addOnSuccessListener(unused -> {
@@ -117,13 +115,14 @@ public class CrearTareaActivity extends AppCompatActivity {
     }
 
     private void postTarea(String titulo, String descripcion, Date fecha) {
-        String userId = mAuth.getCurrentUser().getUid();  // 🔒 UID del usuario actual
+        String userId = mAuth.getCurrentUser().getUid();
 
         Map<String, Object> map = new HashMap<>();
         map.put("titulo", titulo);
         map.put("descripcion", descripcion);
         map.put("fecha_inicio", fecha);
-        map.put("userId", userId);  // 🔐 Asociar la tarea al usuario
+        map.put("userId", userId);
+        map.put("completada", false); // nueva tarea = incompleta
 
         mfirestore.collection("tareas").add(map)
                 .addOnSuccessListener(documentReference -> {
@@ -142,6 +141,7 @@ public class CrearTareaActivity extends AppCompatActivity {
                     String titulo = documentSnapshot.getString("titulo");
                     String descripcion = documentSnapshot.getString("descripcion");
                     Date fecha = documentSnapshot.getDate("fecha_inicio");
+                    Boolean completada = documentSnapshot.getBoolean("completada");
 
                     titulo_tarea.setText(titulo);
                     descripcion_tarea.setText(descripcion);
@@ -149,6 +149,11 @@ public class CrearTareaActivity extends AppCompatActivity {
                         String fechaFormateada = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(fecha);
                         inicio_tarea.setText(fechaFormateada);
                     }
+
+                    if (completada != null) {
+                        tareaCompletada = completada;
+                    }
+
                 })
                 .addOnFailureListener(e -> Toast.makeText(getApplicationContext(), "Error al obtener los datos", Toast.LENGTH_SHORT).show());
     }
