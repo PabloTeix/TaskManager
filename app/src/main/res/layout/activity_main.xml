@@ -27,19 +27,13 @@
             android:backgroundTint="#FFFFFF"
             android:layout_marginTop="0dp"/>
 
-        <Button
-            android:id="@+id/btn_cerrar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toTopOf="@id/search"
-            android:text="Cerrar sesion" />
 
         <Button
             android:id="@+id/btnAgregar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Agregar tarea"
-            app:layout_constraintBottom_toTopOf="@id/btn_cerrar"/>
+            app:layout_constraintBottom_toTopOf="@id/search"/>
 
 
 

@@ -54,11 +54,11 @@ public class AdapterTarea extends FirestoreRecyclerAdapter<Tarea, AdapterTarea.V
         if (isCompletadasActivity) {
             // Si estamos en la actividad de tareas completadas, ocultar el botón de editar
             holder.button_editar.setVisibility(View.GONE);
-            holder.button_eliminar.setVisibility(View.GONE);
+            //holder.button_eliminar.setVisibility(View.GONE);
         } else {
             // Si estamos en otra actividad, mostrar el botón de editar
             holder.button_editar.setVisibility(View.VISIBLE);
-            holder.button_eliminar.setVisibility(View.VISIBLE);
+            //holder.button_eliminar.setVisibility(View.VISIBLE);
         }
 
         // Configurar acción para editar tarea

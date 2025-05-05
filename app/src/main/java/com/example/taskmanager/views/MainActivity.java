@@ -23,7 +23,7 @@ import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button btnAgregar, btn_Cerrar;
+    Button btnAgregar; //btn_Cerrar;
     RecyclerView mRecycler;
     AdapterTarea mAdapter;
     FirebaseFirestore mFirestore;
@@ -71,15 +71,15 @@ public class MainActivity extends AppCompatActivity {
 
         // Botones y búsqueda
         search_view = findViewById(R.id.search);
-        btn_Cerrar = findViewById(R.id.btn_cerrar);
+       // btn_Cerrar = findViewById(R.id.btn_cerrar);
         btnAgregar = findViewById(R.id.btnAgregar);
 
-        btn_Cerrar.setOnClickListener(v -> {
+       /* btn_Cerrar.setOnClickListener(v -> {
             mAuth.signOut();
             finish();
             startActivity(new Intent(MainActivity.this, LoginActivity.class));
         });
-
+*/
         btnAgregar.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, CrearTareaActivity.class)));
 
         search_view();  // Configurar búsqueda

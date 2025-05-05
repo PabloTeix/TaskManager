@@ -5,6 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <TextView
+        android:id="@+id/tareas_completada"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Has completado un total de: "
+        android:textSize="20sp" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewCompletadas"
         android:layout_width="match_parent"
