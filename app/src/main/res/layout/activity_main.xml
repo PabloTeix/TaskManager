@@ -19,6 +19,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+
+        <TextView
+            android:id="@+id/tareas_activas"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Tienes activas: "
+            android:textSize="20sp" />
+
         <SearchView
             android:id="@+id/search"
             android:layout_width="match_parent"

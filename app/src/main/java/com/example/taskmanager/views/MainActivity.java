@@ -7,6 +7,7 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.SearchView;
 import android.widget.Toast;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -20,6 +21,10 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.ListenerRegistration;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -29,6 +34,8 @@ public class MainActivity extends AppCompatActivity {
     FirebaseFirestore mFirestore;
     FirebaseAuth mAuth;
     SearchView search_view;
+    TextView tvContadorActivas;
+    ListenerRegistration listenerRegistroActivas; // Listener para el contador de tareas activas
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,17 +76,13 @@ public class MainActivity extends AppCompatActivity {
         mAdapter = new AdapterTarea(firestoreRecyclerOptions, this, false);
         mRecycler.setAdapter(mAdapter);
 
+        // Inicializar el TextView para el contador de tareas activas
+        tvContadorActivas = findViewById(R.id.tareas_activas);
+
         // Botones y búsqueda
         search_view = findViewById(R.id.search);
-       // btn_Cerrar = findViewById(R.id.btn_cerrar);
         btnAgregar = findViewById(R.id.btnAgregar);
 
-       /* btn_Cerrar.setOnClickListener(v -> {
-            mAuth.signOut();
-            finish();
-            startActivity(new Intent(MainActivity.this, LoginActivity.class));
-        });
-*/
         btnAgregar.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, CrearTareaActivity.class)));
 
         search_view();  // Configurar búsqueda
@@ -122,9 +125,35 @@ public class MainActivity extends AppCompatActivity {
         mRecycler.setAdapter(mAdapter);
     }
 
+    // Contar tareas activas en tiempo real
+    private void contarTareasActivas() {
+        String userId = mAuth.getCurrentUser().getUid();
+        Query queryActivas = mFirestore.collection("tareas")
+                .whereEqualTo("userId", userId)
+                .whereEqualTo("completada", false); // Tareas activas (no completadas)
+
+        listenerRegistroActivas = queryActivas.addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(QuerySnapshot snapshots, FirebaseFirestoreException e) {
+                if (e != null) {
+                    Toast.makeText(MainActivity.this, "Error al contar tareas", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (snapshots != null) {
+                    int total = snapshots.size();
+                    tvContadorActivas.setText("Tienes activas: " + total + " tareas");
+                }
+            }
+        });
+    }
+
     @Override
     protected void onStart() {
         super.onStart();
+        // Iniciar el listener para contar las tareas activas
+        contarTareasActivas();
+
         if (mAdapter != null) {
             mAdapter.startListening();
         }
@@ -135,6 +164,11 @@ public class MainActivity extends AppCompatActivity {
         super.onStop();
         if (mAdapter != null) {
             mAdapter.stopListening();
+        }
+
+        // Detener el listener para el contador de tareas activas
+        if (listenerRegistroActivas != null) {
+            listenerRegistroActivas.remove();
         }
     }
 
@@ -165,7 +199,7 @@ public class MainActivity extends AppCompatActivity {
         } else if (id == R.id.item_main_menu) {
             // Si ya estás en el menú principal, no hacer nada
             return true;
-        }else if (id == R.id.item_completadas_menu){
+        } else if (id == R.id.item_completadas_menu) {
             startActivity(new Intent(MainActivity.this, CompletadasActivity.class));
             return true;
         }
