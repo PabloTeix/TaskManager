@@ -4,27 +4,28 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp"
-    android:gravity="center">
+    android:gravity="top"
+    android:layout_marginTop="24dp"> <!-- Agregué un margen superior aquí -->
 
     <!-- Título del perfil -->
-
-    <!-- Nombre del usuario -->
     <TextView
         android:id="@+id/tvProfileInfo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
         android:text="Perfil del usuario"
-        android:textSize="18sp"
-        android:textStyle="bold" />
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_marginTop="0dp"
+    android:layout_marginBottom="24dp" />
 
+    <!-- Nombre del usuario -->
     <TextView
         android:id="@+id/tvNombreUsuario"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Nombre: "
         android:textSize="16sp"
-        android:layout_marginBottom="8dp"/>
+        android:layout_marginBottom="16dp"/>
 
     <!-- Correo del usuario -->
     <TextView
@@ -33,7 +34,34 @@
         android:layout_height="wrap_content"
         android:text="Correo: "
         android:textSize="16sp"
-        android:layout_marginBottom="8dp"/>
+        android:layout_marginBottom="16dp"/>
+
+    <!-- Contraseña del usuario -->
+    <TextView
+        android:id="@+id/tvContraseñaUsuario"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Contraseña: "
+        android:textSize="16sp"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- Teléfono del usuario -->
+    <TextView
+        android:id="@+id/tvTelefonoUsuario"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Telefono: "
+        android:textSize="16sp"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- Dirección del usuario -->
+    <TextView
+        android:id="@+id/tvDireccionUsuario"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Direccion: "
+        android:textSize="16sp"
+        android:layout_marginBottom="16dp"/>
 
     <!-- Botón para cerrar sesión -->
     <Button
@@ -45,19 +73,6 @@
         android:background="@android:color/holo_red_dark"
         android:layout_marginBottom="16dp"/>
 
-    <!-- Switch para activar/desactivar el modo oscuro -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Modo oscuro"
-        android:layout_marginBottom="8dp"/>
-
-    <Switch
-        android:id="@+id/switchModoOscuro"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"/>
-
     <!-- Botón para cambiar la contraseña -->
     <Button
         android:id="@+id/btn_cambiar"
@@ -65,4 +80,15 @@
         android:layout_height="wrap_content"
         android:text="Cambiar contraseña"
         android:layout_marginBottom="16dp"/>
+
+    <!-- Imagen al final del layout -->
+    <ImageView
+        android:id="@+id/ivProfileImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/logo_app"
+        android:contentDescription="Imagen del perfil"
+        android:layout_marginTop="25dp"
+        android:layout_gravity="center"/>
+
 </LinearLayout>
