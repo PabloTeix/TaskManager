@@ -9,15 +9,15 @@
     android:fitsSystemWindows="true">
 
     <!-- Título de la tarea -->
-
     <TextView
         android:id="@+id/tvTituloValorDetalle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Titulo"
-        android:textSize="22sp"
-        android:textColor="#555555"
-        android:layout_marginBottom="0dp" />
+        android:text="Título de la tarea"
+        android:textSize="24sp"
+        android:textColor="#2C3E50"
+        android:layout_marginBottom="12dp" />
+
     <TextView
         android:id="@+id/tvTituloDetalle"
         android:layout_width="match_parent"
@@ -25,44 +25,38 @@
         android:text="Título:"
         android:textSize="18sp"
         android:textStyle="bold"
-        android:textColor="#333333"
-        android:layout_marginBottom="8dp" />
-
-
+        android:textColor="#34495E"
+        android:layout_marginBottom="16dp" />
 
     <!-- Descripción de la tarea -->
-
     <TextView
         android:id="@+id/tvDescripcionValorDetalle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Descripcion"
+        android:text="Descripción larga de la tarea"
         android:textSize="22sp"
-        android:textColor="#555555"
-        android:layout_marginBottom="0dp" />
+        android:textColor="#2C3E50"
+        android:layout_marginBottom="12dp" />
 
     <TextView
         android:id="@+id/tvDescripcionDetalle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Descripción:"
-        android:textSize="20sp"
+        android:textSize="18sp"
         android:textStyle="bold"
-        android:textColor="#333333"
-        android:layout_marginBottom="8dp" />
-
-
+        android:textColor="#34495E"
+        android:layout_marginBottom="16dp" />
 
     <!-- Fecha de la tarea -->
-
     <TextView
         android:id="@+id/tvFechaValorDetalle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Fecha inicio"
+        android:text="06/05/2025"
         android:textSize="22sp"
-        android:textColor="#555555"
-        android:layout_marginBottom="0dp" />
+        android:textColor="#2C3E50"
+        android:layout_marginBottom="12dp" />
 
     <TextView
         android:id="@+id/tvFechaDetalle"
@@ -71,10 +65,8 @@
         android:text="Fecha inicio:"
         android:textSize="18sp"
         android:textStyle="bold"
-        android:textColor="#333333"
-        android:layout_marginBottom="8dp" />
-
-
+        android:textColor="#34495E"
+        android:layout_marginBottom="16dp" />
 
     <!-- Separador -->
     <View
@@ -82,4 +74,5 @@
         android:layout_height="1dp"
         android:layout_marginTop="24dp"
         android:background="#dcdcdc" />
+
 </LinearLayout>
