@@ -22,8 +22,6 @@ import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
-
-
 public class CompletadasActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
@@ -64,7 +62,7 @@ public class CompletadasActivity extends AppCompatActivity {
     private void contarTareasCompletadasTiempoReal(Query query) {
         listenerRegistro = query.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
-            public void onEvent(QuerySnapshot snapshots,com.google.firebase.firestore.FirebaseFirestoreException e) {
+            public void onEvent(QuerySnapshot snapshots, com.google.firebase.firestore.FirebaseFirestoreException e) {
                 if (e != null) {
                     Toast.makeText(CompletadasActivity.this, "Error al contar tareas", Toast.LENGTH_SHORT).show();
                     return;
@@ -125,4 +123,12 @@ public class CompletadasActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Recargar los datos al regresar a la actividad
+        if (adapter != null) {
+            adapter.notifyDataSetChanged();
+        }
+    }
 }
