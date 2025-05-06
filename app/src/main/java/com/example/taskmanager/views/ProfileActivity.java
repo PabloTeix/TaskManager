@@ -59,32 +59,92 @@ public class ProfileActivity extends AppCompatActivity {
         FirebaseUser user = mAuth.getCurrentUser();
 
         if (user != null) {
-            String uid = user.getUid();
+            if (user.isAnonymous()) {
+                // Modo invitado, cambia a layout simplificado
+                setContentView(R.layout.activity_profile_guest);
 
-            // Datos personales
-            db.collection("user").document(uid)
-                    .get()
-                    .addOnSuccessListener(documentSnapshot -> {
-                        if (documentSnapshot.exists()) {
-                            tvNombreUsuario.setText("Nombre: " + documentSnapshot.getString("nombre"));
-                            tvEmailUsuario.setText("Correo: " + documentSnapshot.getString("email"));
-                            tvContraseñaUsuario.setText("Contraseña: " + documentSnapshot.getString("contraseña"));
-                            tvTelefonoUsuario.setText("Teléfono: " + documentSnapshot.getString("telefono"));
-                            tvDireccionUsuario.setText("Dirección: " + documentSnapshot.getString("direccion"));
-                        }
-                    })
-                    .addOnFailureListener(e -> Log.e("ProfileActivity", "Error al obtener los datos", e));
+                // Establecer las vistas para el invitado
+                TextView tvWelcomeMessage = findViewById(R.id.tvWelcomeMessage);
+                TextView tvTareasActivas = findViewById(R.id.tvTareasActivas);
+                TextView tvTareasCompletadas = findViewById(R.id.tvTareasCompletadas);
+                Button btnCerrarSesion = findViewById(R.id.btnCerrarSesion);
 
-            // Contar tareas activas y completadas
-            contarTareas(uid, true);  // Activas
-            contarTareas(uid, false); // Completadas
+
+                // Actualizar el texto para el usuario invitado
+                tvTareasActivas.setText("Tareas activas: Cargando...");
+                tvTareasCompletadas.setText("Tareas completadas: Cargando...");
+
+                // Cargar tareas activas y completadas en tiempo real
+                String userId = user.getUid();
+
+                db.collection("tareas")
+                        .whereEqualTo("userId", userId)
+                        .whereEqualTo("completada", false)
+                        .get()
+                        .addOnSuccessListener(queryDocumentSnapshots -> {
+                            int totalActivas = queryDocumentSnapshots.size();
+                            tvTareasActivas.setText("Tareas activas: " + totalActivas);
+                        })
+                        .addOnFailureListener(e -> tvTareasActivas.setText("Error al contar tareas activas"));
+
+                db.collection("tareas")
+                        .whereEqualTo("userId", userId)
+                        .whereEqualTo("completada", true)
+                        .get()
+                        .addOnSuccessListener(queryDocumentSnapshots -> {
+                            int totalCompletadas = queryDocumentSnapshots.size();
+                            tvTareasCompletadas.setText("Tareas completadas: " + totalCompletadas);
+                        })
+                        .addOnFailureListener(e -> tvTareasCompletadas.setText("Error al contar tareas completadas"));
+
+                btnCerrarSesion.setOnClickListener(v -> {
+                    mAuth.signOut();
+                    startActivity(new Intent(ProfileActivity.this, MainActivity.class));
+                    finish();
+                });
+
+            } else {
+                // Usuario registrado: layout completo
+                setContentView(R.layout.activity_profile);
+
+                // Inicializar vistas del usuario registrado
+                tvNombreUsuario = findViewById(R.id.tvNombreUsuario);
+                tvEmailUsuario = findViewById(R.id.tvEmailUsuario);
+                tvContraseñaUsuario = findViewById(R.id.tvContraseñaUsuario);
+                tvTelefonoUsuario = findViewById(R.id.tvTelefonoUsuario);
+                tvDireccionUsuario = findViewById(R.id.tvDireccionUsuario);
+                tvTareasActivas = findViewById(R.id.tvContadorActivas);
+                tvTareasCompletadas = findViewById(R.id.tvContadorCompletadas);
+                btnCerrarSesion = findViewById(R.id.btn_cerrar_sesion);
+                btnCambiarContrasena = findViewById(R.id.btn_cambiar);
+
+                String uid = user.getUid();
+
+                // Obtener datos personales
+                db.collection("user").document(uid)
+                        .get()
+                        .addOnSuccessListener(documentSnapshot -> {
+                            if (documentSnapshot.exists()) {
+                                tvNombreUsuario.setText("Nombre: " + documentSnapshot.getString("nombre"));
+                                tvEmailUsuario.setText("Correo: " + documentSnapshot.getString("email"));
+                                tvContraseñaUsuario.setText("Contraseña: " + documentSnapshot.getString("contraseña"));
+                                tvTelefonoUsuario.setText("Teléfono: " + documentSnapshot.getString("telefono"));
+                                tvDireccionUsuario.setText("Dirección: " + documentSnapshot.getString("direccion"));
+                            }
+                        })
+                        .addOnFailureListener(e -> Log.e("ProfileActivity", "Error al obtener los datos", e));
+
+                // Contar tareas
+                contarTareas(uid, true);  // Activas
+                contarTareas(uid, false); // Completadas
+
+                btnCerrarSesion.setOnClickListener(v -> {
+                    mAuth.signOut();
+                    startActivity(new Intent(ProfileActivity.this, LoginActivity.class));
+                    finish();
+                });
+            }
         }
-
-        btnCerrarSesion.setOnClickListener(v -> {
-            mAuth.signOut();
-            startActivity(new Intent(ProfileActivity.this, LoginActivity.class));
-            finish();
-        });
 
         btnCambiarContrasena.setOnClickListener(v -> mostrarDialogoCambioContrasena());
     }

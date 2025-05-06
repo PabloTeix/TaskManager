@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="#f0f0f0"
+    android:fitsSystemWindows="true">
+
+
+    <!-- Título -->
+    <TextView
+        android:id="@+id/tvWelcomeMessage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Bienvenido, estás en modo invitado."
+        android:textSize="20sp"
+        android:textColor="#333"
+        android:gravity="center"
+        android:paddingBottom="20dp"/>
+
+    <!-- Tareas activas -->
+    <TextView
+        android:id="@+id/tvTareasActivas"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Tareas activas: 0"
+        android:textSize="16sp"
+        android:textColor="#666"
+        android:paddingBottom="20dp"/>
+
+    <!-- Tareas completadas -->
+    <TextView
+        android:id="@+id/tvTareasCompletadas"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Tareas completadas: 0"
+        android:textSize="16sp"
+        android:textColor="#666"
+        android:paddingBottom="20dp"/>
+
+    <!-- Mensaje invitando a registrarse -->
+    <TextView
+        android:id="@+id/tvIniciarSesion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="¡Regístrate para tener acceso completo a las funcionalidades!"
+        android:textSize="16sp"
+        android:textColor="#FF5722"
+        android:gravity="center"
+        android:paddingBottom="20dp"/>
+
+    <!-- Botón de cierre de sesión (Para salir del modo invitado) -->
+    <Button
+        android:id="@+id/btnCerrarSesion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Cerrar sesión"
+        android:backgroundTint="#FF5722"
+        android:textColor="#FFFFFF"
+        android:padding="10dp"
+        android:onClick="cerrarSesion"/>
+
+    <!-- Imagen al final del layout -->
+    <ImageView
+        android:id="@+id/ivProfileImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/logo_app"
+        android:contentDescription="Imagen del perfil"
+        android:layout_marginTop="25dp"
+        android:layout_gravity="center"/>
+
+</LinearLayout>
