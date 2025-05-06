@@ -33,7 +33,7 @@
         android:id="@+id/tvDescripcionValorDetalle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Descripción larga de la tarea"
+        android:text="Descripción de la tarea"
         android:textSize="22sp"
         android:textColor="#2C3E50"
         android:layout_marginBottom="12dp" />
@@ -53,7 +53,7 @@
         android:id="@+id/tvFechaValorDetalle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="06/05/2025"
+        android:text="Fecha inicio:"
         android:textSize="22sp"
         android:textColor="#2C3E50"
         android:layout_marginBottom="12dp" />

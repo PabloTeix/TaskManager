@@ -3,75 +3,80 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp"
+    android:padding="24dp"
     android:gravity="top"
     android:layout_marginTop="24dp"
     android:fitsSystemWindows="true">
-
 
     <!-- Nombre del usuario -->
     <TextView
         android:id="@+id/tvNombreUsuario"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Nombre: "
-        android:textSize="16sp"
-        android:layout_marginBottom="16dp"/>
+        android:text="Nombre: Juan Pérez"
+        android:textSize="18sp"
+        android:textColor="#2C3E50"
+        android:layout_marginBottom="12dp"/>
 
     <!-- Correo del usuario -->
     <TextView
         android:id="@+id/tvEmailUsuario"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Correo: "
-        android:textSize="16sp"
-        android:layout_marginBottom="16dp"/>
+        android:text="Correo: juan.perez@email.com"
+        android:textSize="18sp"
+        android:textColor="#2C3E50"
+        android:layout_marginBottom="12dp"/>
 
     <!-- Contraseña del usuario -->
     <TextView
         android:id="@+id/tvContraseñaUsuario"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Contraseña: "
-        android:textSize="16sp"
-        android:layout_marginBottom="16dp"/>
+        android:text="Contraseña: ********"
+        android:textSize="18sp"
+        android:textColor="#2C3E50"
+        android:layout_marginBottom="12dp"/>
 
     <!-- Teléfono del usuario -->
     <TextView
         android:id="@+id/tvTelefonoUsuario"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Telefono: "
-        android:textSize="16sp"
-        android:layout_marginBottom="16dp"/>
+        android:text="Telefono: +123456789"
+        android:textSize="18sp"
+        android:textColor="#2C3E50"
+        android:layout_marginBottom="12dp"/>
 
     <!-- Dirección del usuario -->
     <TextView
         android:id="@+id/tvDireccionUsuario"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Direccion: "
-        android:textSize="16sp"
-        android:layout_marginBottom="16dp"/>
+        android:text="Dirección: Calle Ficticia 123"
+        android:textSize="18sp"
+        android:textColor="#2C3E50"
+        android:layout_marginBottom="12dp"/>
 
     <!-- Tareas activas -->
     <TextView
         android:id="@+id/tvContadorActivas"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Tareas activas: 0"
-        android:textSize="16sp"
-        android:layout_marginBottom="16dp"/>
+        android:text="Tareas activas: 5"
+        android:textSize="18sp"
+        android:textColor="#2C3E50"
+        android:layout_marginBottom="12dp"/>
 
     <!-- Tareas completadas -->
     <TextView
         android:id="@+id/tvContadorCompletadas"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Tareas completadas: 0"
-        android:textSize="16sp"
+        android:text="Tareas completadas: 10"
+        android:textSize="18sp"
+        android:textColor="#2C3E50"
         android:layout_marginBottom="16dp"/>
-
 
     <!-- Botón para cerrar sesión -->
     <Button
@@ -99,6 +104,7 @@
         android:src="@drawable/logo_app"
         android:contentDescription="Imagen del perfil"
         android:layout_marginTop="25dp"
-        android:layout_gravity="center"/>
+        android:layout_gravity="center"
+        android:scaleType="centerCrop"/>
 
 </LinearLayout>
