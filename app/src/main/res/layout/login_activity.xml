@@ -1,51 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp"
+    android:padding="24dp"
+    android:background="#F4F6F7"
     android:fitsSystemWindows="true">
+
+    <TextView
+        android:id="@+id/tvLoginTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Bienvenido"
+        android:textSize="26sp"
+        android:textStyle="bold"
+        android:textColor="#2C3E50"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="40dp"/>
 
     <EditText
         android:id="@+id/etEmailLogin"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="Email"
-        android:textColorHint="#BDC3C7"
-        android:inputType="textEmailAddress" />
+        android:inputType="textEmailAddress"
+        android:background="@drawable/edittext_background"
+        android:padding="12dp"
+        android:textColorHint="#7F8C8D"
+        app:layout_constraintTop_toBottomOf="@id/tvLoginTitle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="32dp"/>
 
     <EditText
         android:id="@+id/etPasswordLogin"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="Contraseña"
-        android:textColorHint="#BDC3C7"
-
-        android:inputType="textPassword" />
+        android:inputType="textPassword"
+        android:background="@drawable/edittext_background"
+        android:padding="12dp"
+        android:textColorHint="#7F8C8D"
+        app:layout_constraintTop_toBottomOf="@id/etEmailLogin"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp"/>
 
     <Button
         android:id="@+id/btnLogin"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Iniciar sesión" />
+        android:text="Iniciar sesión"
+        android:backgroundTint="#3498DB"
+        android:textColor="#FFFFFF"
+        app:layout_constraintTop_toBottomOf="@id/etPasswordLogin"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="24dp"/>
 
     <Button
         android:id="@+id/btnRegisterRedirect"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="¿No tienes cuenta? Regístrate aquí" />
+        android:text="¿No tienes cuenta? Regístrate aquí"
+        android:textColor="#3498DB"
+        android:backgroundTint="#ECEFF1"
+        app:layout_constraintTop_toBottomOf="@id/btnLogin"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="12dp"/>
 
     <Button
         android:id="@+id/btn_invitado"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Modo invitado" />
+        android:text="Modo invitado"
+        android:backgroundTint="#95A5A6"
+        android:textColor="#FFFFFF"
+        app:layout_constraintTop_toBottomOf="@id/btnRegisterRedirect"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="12dp"/>
 
     <ProgressBar
         android:id="@+id/progressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone" /> <!-- Inicialmente oculto -->
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/btn_invitado"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp"/>
 
-
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
