@@ -72,6 +72,8 @@ public class MainActivity extends AppCompatActivity {
 
         tvContadorActivas = findViewById(R.id.tareas_activas);
         search_view = findViewById(R.id.search);
+        search_view.setQueryHint("Búsqueda por título");
+
         btnAgregar = findViewById(R.id.btnAgregar);
 
         btnAgregar.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, CrearTareaActivity.class)));
@@ -174,14 +176,17 @@ public class MainActivity extends AppCompatActivity {
 
         if (id == R.id.item_profile) {
             startActivity(new Intent(MainActivity.this, ProfileActivity.class));
+            finish();
             return true;
         } else if (id == R.id.item_main_menu) {
             return true;
         } else if (id == R.id.item_completadas_menu) {
             startActivity(new Intent(MainActivity.this, CompletadasActivity.class));
+            finish();
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
+
 }

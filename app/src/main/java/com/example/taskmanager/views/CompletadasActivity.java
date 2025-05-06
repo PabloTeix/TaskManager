@@ -92,9 +92,11 @@ public class CompletadasActivity extends AppCompatActivity {
             return true;
         } else if (id == R.id.item_main_menu) {
             startActivity(new Intent(CompletadasActivity.this, MainActivity.class));
+            finish();
             return true;
         } else if (id == R.id.item_profile) {
             startActivity(new Intent(CompletadasActivity.this, ProfileActivity.class));
+            finish();
             return true;
         }
 
@@ -122,4 +124,5 @@ public class CompletadasActivity extends AppCompatActivity {
             listenerRegistro.remove(); // Detener el listener para evitar fugas de memoria
         }
     }
+
 }

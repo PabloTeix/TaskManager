@@ -126,9 +126,11 @@ public class ProfileActivity extends AppCompatActivity {
             return true;
         } else if (id == R.id.item_main_menu) {
             startActivity(new Intent(ProfileActivity.this, MainActivity.class));
+            finish();
             return true;
         } else if (id == R.id.item_completadas_menu) {
             startActivity(new Intent(ProfileActivity.this, CompletadasActivity.class));
+            finish();
             return true;
         }
 
@@ -226,4 +228,5 @@ public class ProfileActivity extends AppCompatActivity {
                     Toast.makeText(this, "Error al actualizar la contraseña en Firestore", Toast.LENGTH_SHORT).show();
                 });
     }
+
 }
