@@ -5,7 +5,7 @@
     android:orientation="vertical"
     android:padding="24dp"
     android:gravity="top"
-    android:layout_marginTop="24dp"
+    android:background="@drawable/fondo"
     android:fitsSystemWindows="true">
 
     <!-- Nombre del usuario -->
@@ -16,6 +16,7 @@
         android:text="Nombre: Juan Pérez"
         android:textSize="18sp"
         android:textColor="#2C3E50"
+        android:layout_marginTop="24dp"
         android:layout_marginBottom="12dp"/>
 
     <!-- Correo del usuario -->
