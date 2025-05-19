@@ -5,23 +5,36 @@
     <!-- Opción para ir al menú principal -->
     <item
         android:id="@+id/item_main_menu"
-        android:title="Menú Principal"
+        android:title="🏠 Inicio"
         android:icon="@drawable/ic_principal"
         app:showAsAction="ifRoom" />
 
-    <!-- Opción para ir al menú tareas completadas -->
+    <!-- Barra visual como separador -->
+    <item
+        android:id="@+id/separator1"
+        android:title="|"
+        android:enabled="false"
+        app:showAsAction="always" />
+
+    <!-- Opción para tareas completadas -->
     <item
         android:id="@+id/item_completadas_menu"
-        android:title="Menú Principal"
+        android:title="✅ Completadas"
         android:icon="@drawable/ic_pan_completada"
         app:showAsAction="ifRoom" />
+
+    <!-- Barra visual como separador -->
+    <item
+        android:id="@+id/separator2"
+        android:title="|"
+        android:enabled="false"
+        app:showAsAction="always" />
 
     <!-- Opción para ir al perfil -->
     <item
         android:id="@+id/item_profile"
-        android:title="Perfil"
+        android:title="👤 Perfil"
         android:icon="@drawable/ic_perfil"
         app:showAsAction="ifRoom" />
-
 
 </menu>
