@@ -58,7 +58,7 @@ public class AdapterTarea extends FirestoreRecyclerAdapter<Tarea, AdapterTarea.V
                     holder.cardView.setCardBackgroundColor(Color.parseColor("#F4F6F7"));
                     break;
                 case "Rojo":
-                    holder.cardView.setCardBackgroundColor(Color.parseColor("#FFCDD2"));
+                    holder.cardView.setCardBackgroundColor(Color.parseColor("#EF5350"));
                     break;
                 case "Verde":
                     holder.cardView.setCardBackgroundColor(Color.parseColor("#C8E6C9"));
@@ -69,12 +69,21 @@ public class AdapterTarea extends FirestoreRecyclerAdapter<Tarea, AdapterTarea.V
                 case "Amarillo":
                     holder.cardView.setCardBackgroundColor(Color.parseColor("#FFF9C4"));
                     break;
+                case "Naranja":
+                    holder.cardView.setCardBackgroundColor(Color.parseColor("#FFA726"));
+                    break;
+                case "Rosa":
+                    holder.cardView.setCardBackgroundColor(Color.parseColor("#F8BBD0"));
+                    break;
+                case "Blanco":
+                    holder.cardView.setCardBackgroundColor(Color.WHITE); // blanco
+                    break;
                 default:
                     holder.cardView.setCardBackgroundColor(Color.parseColor("#F4F6F7"));
                     break;
             }
         } else {
-            holder.cardView.setCardBackgroundColor(Color.WHITE);
+            holder.cardView.setCardBackgroundColor(Color.parseColor("#F4F6F7"));
         }
 
         if (isCompletadasActivity) {

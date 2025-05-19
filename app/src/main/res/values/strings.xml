@@ -6,5 +6,9 @@
         <item>Verde</item>
         <item>Azul</item>
         <item>Amarillo</item>
+        <item>Naranja</item>
+        <item>Rosa</item>
+        <item>Blanco</item>
+
     </string-array>
 </resources>
