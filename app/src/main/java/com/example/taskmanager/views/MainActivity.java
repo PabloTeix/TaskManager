@@ -4,10 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Button;
 import android.widget.SearchView;
-import android.widget.Toast;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -17,25 +16,23 @@ import com.example.taskmanager.R;
 import com.example.taskmanager.adapter.AdapterTarea;
 import com.example.taskmanager.models.Tarea;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QuerySnapshot;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button btnAgregar;
-    RecyclerView mRecycler;
-    AdapterTarea mAdapter;
-    FirebaseFirestore mFirestore;
-    FirebaseAuth mAuth;
-    SearchView search_view;
-    TextView tvContadorActivas;
-    ListenerRegistration listenerRegistroActivas;
+    private FloatingActionButton fabAgregarTarea;
+    private RecyclerView mRecycler;
+    private AdapterTarea mAdapter;
+    private FirebaseFirestore mFirestore;
+    private FirebaseAuth mAuth;
+    private SearchView search_view;
+    private TextView tvContadorActivas;
+    private ListenerRegistration listenerRegistroActivas;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,36 +71,36 @@ public class MainActivity extends AppCompatActivity {
         search_view = findViewById(R.id.search);
         search_view.setQueryHint("Búsqueda por título");
 
-        btnAgregar = findViewById(R.id.btnAgregar);
+        fabAgregarTarea = findViewById(R.id.fabAgregarTarea);
+        fabAgregarTarea.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, CrearTareaActivity.class)));
 
-        btnAgregar.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, CrearTareaActivity.class)));
-        search_view();
+        configurarBuscador();
     }
 
-    private void search_view() {
+    private void configurarBuscador() {
         search_view.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                textSearch(query);
+                realizarBusqueda(query);
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                textSearch(newText);
+                realizarBusqueda(newText);
                 return false;
             }
         });
     }
 
-    public void textSearch(String queryText) {
+    private void realizarBusqueda(String texto) {
         String userId = mAuth.getCurrentUser().getUid();
         Query query = mFirestore.collection("tareas")
                 .whereEqualTo("userId", userId)
                 .whereEqualTo("completada", false)
                 .orderBy("titulo")
-                .startAt(queryText)
-                .endAt(queryText + "~");
+                .startAt(texto)
+                .endAt(texto + "\uf8ff");
 
         FirestoreRecyclerOptions<Tarea> firestoreRecyclerOptions =
                 new FirestoreRecyclerOptions.Builder<Tarea>()
@@ -188,5 +185,4 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
 }

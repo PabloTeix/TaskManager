@@ -8,6 +8,7 @@
     android:fitsSystemWindows="true"
     android:padding="16dp">
 
+    <!-- Contenedor de las tareas y búsqueda -->
     <LinearLayout
         android:id="@+id/myLinearLayout"
         android:layout_width="0dp"
@@ -16,10 +17,11 @@
         android:background="@drawable/rounded_background"
         android:padding="16dp"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/fabAgregarTarea"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
+        <!-- Texto de tareas activas -->
         <TextView
             android:id="@+id/tareas_activas"
             android:layout_width="match_parent"
@@ -30,6 +32,7 @@
             android:textStyle="bold"
             android:layout_marginBottom="8dp"/>
 
+        <!-- Buscador -->
         <SearchView
             android:id="@+id/search"
             android:layout_width="match_parent"
@@ -39,15 +42,7 @@
             android:queryHint="Buscar tareas..."
             android:layout_marginBottom="12dp"/>
 
-        <Button
-            android:id="@+id/btnAgregar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Agregar tarea"
-            android:textColor="#FFFFFF"
-            android:backgroundTint="#3498DB"
-            android:layout_marginBottom="12dp"/>
-
+        <!-- Lista de tareas -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewSingle"
             android:layout_width="match_parent"
@@ -56,4 +51,15 @@
             android:layout_marginTop="8dp"/>
     </LinearLayout>
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabAgregarTarea"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:contentDescription="Añadir tarea"
+        android:src="@android:drawable/ic_input_add"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:tint="@android:color/white"
+        app:backgroundTint="@color/design_default_color_primary"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
