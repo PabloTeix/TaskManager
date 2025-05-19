@@ -24,6 +24,6 @@ public class SplashActivity extends AppCompatActivity {
                 startActivity(intent);
                 finish();  // Finaliza la actividad SplashScreen para que no se quede en la pila de actividades
             }
-        }, 2000);  // 2000 ms = 2 segundos
+        }, 1000);  // 1000 ms = 1 segundo
     }
 }

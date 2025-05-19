@@ -30,7 +30,10 @@
         android:textSize="18sp"
         android:textStyle="bold"
         android:textColor="#34495E"
-        android:layout_marginBottom="12dp" />
+        android:layout_marginBottom="12dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"/>
+
 
     <!-- Descripción de la tarea -->
     <TextView
@@ -55,7 +58,9 @@
         android:textSize="18sp"
         android:textStyle="bold"
         android:textColor="#34495E"
-        android:layout_marginBottom="12dp" />
+        android:layout_marginBottom="12dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"/>/>
 
     <!-- Fecha de la tarea -->
     <TextView
