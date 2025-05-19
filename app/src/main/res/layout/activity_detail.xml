@@ -1,104 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="24dp"
     android:background="@drawable/fondo"
-    android:gravity="center_horizontal"
     android:fitsSystemWindows="true">
 
-    <!-- Título de la tarea -->
-    <TextView
-        android:id="@+id/tvTituloValorDetalle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Título de la tarea"
-        android:textSize="26sp"
-        android:textColor="#2C3E50"
-        android:textStyle="bold"
-        android:layout_marginTop="50dp"
-        android:layout_marginBottom="16dp"
-        android:layout_gravity="center" /> <!-- Centrado del título -->
-
-    <!-- Etiqueta de Título -->
-    <TextView
-        android:id="@+id/tvTituloDetalle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Título:"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:textColor="#34495E"
-        android:layout_marginBottom="12dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="24dp"/>
-
-
-    <!-- Descripción de la tarea -->
-    <TextView
-        android:id="@+id/tvDescripcionValorDetalle"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Descripción de la tarea"
-        android:textSize="22sp"
-        android:textColor="#2C3E50"
-        android:layout_marginBottom="16dp"
-        android:lineSpacingExtra="4dp"
-        android:gravity="center"
-        android:layout_gravity="center" />
+        android:orientation="vertical"
+        android:padding="24dp"
+        android:gravity="center_horizontal">
 
+        <!-- Título de la tarea -->
+        <TextView
+            android:id="@+id/tvTituloValorDetalle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Título de la tarea"
+            android:textSize="26sp"
+            android:textColor="#2C3E50"
+            android:textStyle="bold"
+            android:layout_marginTop="50dp"
+            android:layout_marginBottom="16dp"
+            android:layout_gravity="center" />
 
-    <!-- Etiqueta de Descripción -->
-    <TextView
-        android:id="@+id/tvDescripcionDetalle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Descripción:"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:textColor="#34495E"
-        android:layout_marginBottom="12dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="24dp"/>/>
+        <!-- Etiqueta de Título -->
+        <TextView
+            android:id="@+id/tvTituloDetalle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Título:"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="#34495E"
+            android:layout_marginBottom="12dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp" />
 
-    <!-- Fecha de la tarea -->
-    <TextView
-        android:id="@+id/tvFechaValorDetalle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Fecha inicio: "
-        android:textSize="22sp"
-        android:textColor="#2C3E50"
-        android:layout_marginBottom="16dp"
-        android:lineSpacingExtra="4dp"/> <!-- Espaciado adicional entre líneas para mejorar legibilidad -->
+        <!-- Descripción de la tarea -->
+        <TextView
+            android:id="@+id/tvDescripcionValorDetalle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Descripción de la tarea"
+            android:textSize="22sp"
+            android:textColor="#2C3E50"
+            android:layout_marginBottom="16dp"
+            android:lineSpacingExtra="4dp"
+            android:gravity="center"
+            android:layout_gravity="center" />
 
-    <!-- Etiqueta de Fecha -->
-    <TextView
-        android:id="@+id/tvFechaDetalle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Fecha:"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:textColor="#34495E"
-        android:layout_marginBottom="24dp" />
+        <!-- Etiqueta de Descripción -->
+        <TextView
+            android:id="@+id/tvDescripcionDetalle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Descripción:"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="#34495E"
+            android:layout_marginBottom="12dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp" />
 
-    <!-- Separador -->
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#dcdcdc"
-        android:layout_marginTop="16dp" />
+        <!-- Fecha de la tarea -->
+        <TextView
+            android:id="@+id/tvFechaValorDetalle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Fecha inicio: "
+            android:textSize="22sp"
+            android:textColor="#2C3E50"
+            android:layout_marginBottom="16dp"
+            android:lineSpacingExtra="4dp" />
 
-    <!-- Imagen al final del layout -->
-    <ImageView
-        android:id="@+id/ivProfileImage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/logo_app"
-        android:contentDescription="Imagen del perfil"
-        android:layout_marginTop="25dp"
-        android:layout_gravity="center"
-        android:scaleType="centerCrop" />
-</LinearLayout>
+        <!-- Etiqueta de Fecha -->
+        <TextView
+            android:id="@+id/tvFechaDetalle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Fecha:"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="#34495E"
+            android:layout_marginBottom="24dp" />
+
+        <!-- Separador -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#dcdcdc"
+            android:layout_marginTop="16dp" />
+
+        <!-- Imagen al final del layout -->
+        <ImageView
+            android:id="@+id/ivProfileImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/logo_app"
+            android:contentDescription="Imagen del perfil"
+            android:layout_marginTop="25dp"
+            android:layout_gravity="center"
+            android:scaleType="centerCrop" />
+
+    </LinearLayout>
+</ScrollView>
