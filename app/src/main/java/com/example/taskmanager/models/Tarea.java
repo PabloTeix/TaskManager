@@ -9,6 +9,7 @@ public class Tarea {
     String titulo, descripcion; // El título y la descripción de la tarea.
     Date fecha_inicio; // La fecha en que se inicia la tarea.
     boolean completada;
+    String color;
 
     // Constructor vacío requerido para Firebase (para deserialización)
     public Tarea() {
@@ -16,12 +17,23 @@ public class Tarea {
 
     // Constructor de la clase Tarea con parámetros para inicializar los valores de la tarea.
     // Este constructor permite crear una nueva tarea especificando su título, descripción y fecha de inicio.
-    public Tarea(String titulo, String descripcion, Date fecha_inicio,boolean completada) {
-        this.titulo = titulo; // Inicializar el título de la tarea
-        this.descripcion = descripcion; // Inicializar la descripción de la tarea
-        this.fecha_inicio = fecha_inicio; // Inicializar la fecha de inicio de la tarea
+
+    public Tarea(String titulo, String descripcion, Date fecha_inicio, boolean completada, String color) {
+        this.titulo = titulo;
+        this.descripcion = descripcion;
+        this.fecha_inicio = fecha_inicio;
         this.completada = completada;
+        this.color = color;
     }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
 
     // Getters y Setters para cada uno de los campos.
     // Estos métodos permiten acceder y modificar los valores de las propiedades de la clase Tarea.

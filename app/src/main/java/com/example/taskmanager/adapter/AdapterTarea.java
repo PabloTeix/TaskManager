@@ -2,6 +2,7 @@ package com.example.taskmanager.adapter;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.taskmanager.R;
@@ -18,8 +20,6 @@ import com.example.taskmanager.views.CrearTareaActivity;
 import com.example.taskmanager.views.DetailActivity;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -50,6 +50,33 @@ public class AdapterTarea extends FirestoreRecyclerAdapter<Tarea, AdapterTarea.V
         String fechaFormateada = sdf.format(tarea.getFecha_inicio());
         holder.fecha.setText(fechaFormateada);
 
+        //Asignar color al CardView
+        String color = tarea.getColor();
+        if (color != null) {
+            switch (color) {
+                case "Por defecto":
+                    holder.cardView.setCardBackgroundColor(Color.parseColor("#F4F6F7"));
+                    break;
+                case "Rojo":
+                    holder.cardView.setCardBackgroundColor(Color.parseColor("#FFCDD2"));
+                    break;
+                case "Verde":
+                    holder.cardView.setCardBackgroundColor(Color.parseColor("#C8E6C9"));
+                    break;
+                case "Azul":
+                    holder.cardView.setCardBackgroundColor(Color.parseColor("#BBDEFB"));
+                    break;
+                case "Amarillo":
+                    holder.cardView.setCardBackgroundColor(Color.parseColor("#FFF9C4"));
+                    break;
+                default:
+                    holder.cardView.setCardBackgroundColor(Color.parseColor("#F4F6F7"));
+                    break;
+            }
+        } else {
+            holder.cardView.setCardBackgroundColor(Color.WHITE);
+        }
+
         if (isCompletadasActivity) {
             holder.button_editar.setVisibility(View.GONE);
         } else {
@@ -77,7 +104,6 @@ public class AdapterTarea extends FirestoreRecyclerAdapter<Tarea, AdapterTarea.V
             holder.button_completar.setVisibility(View.VISIBLE);
         }
 
-        // 👉 Click sobre el ítem completo para abrir DetailActivity
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(activity, DetailActivity.class);
             intent.putExtra("titulo", tarea.getTitulo());
@@ -103,6 +129,7 @@ public class AdapterTarea extends FirestoreRecyclerAdapter<Tarea, AdapterTarea.V
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView titulo, descripcion, fecha;
         ImageView button_eliminar, button_editar, button_completar;
+        CardView cardView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -112,6 +139,7 @@ public class AdapterTarea extends FirestoreRecyclerAdapter<Tarea, AdapterTarea.V
             button_eliminar = itemView.findViewById(R.id.btn_eliminar);
             button_editar = itemView.findViewById(R.id.bt_editar);
             button_completar = itemView.findViewById(R.id.bt_completar);
+            cardView = itemView.findViewById(R.id.card_tarea); // <- asegúrate de tener este ID en tu CardView
         }
     }
 }

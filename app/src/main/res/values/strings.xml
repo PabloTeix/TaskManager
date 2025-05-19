@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Task Manager</string>
+    <string-array name="colores_array">
+        <item>Por defecto</item>
+        <item>Rojo</item>
+        <item>Verde</item>
+        <item>Azul</item>
+        <item>Amarillo</item>
+    </string-array>
 </resources>
