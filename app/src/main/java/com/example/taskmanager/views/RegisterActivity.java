@@ -1,6 +1,8 @@
 package com.example.taskmanager.views;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.Button;
@@ -46,6 +48,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         // Configurar el título de la actividad y habilitar la opción de retroceder en la barra de acción
         this.setTitle("Registro");
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#6B3E26")));  // Color marrón
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // Inicializar los campos de entrada de texto y el botón

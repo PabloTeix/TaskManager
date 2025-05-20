@@ -1,5 +1,7 @@
 package com.example.taskmanager.views;
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -45,6 +47,7 @@ public class CrearTareaActivity extends AppCompatActivity {
         setContentView(R.layout.activity_crear_tarea);
 
         this.setTitle("Añadir tarea");
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#6B3E26")));  // Color marrón
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);  // Agrega un botón de retroceso en la barra de acción.
 
         // Inicialización de las instancias de Firebase

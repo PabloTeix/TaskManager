@@ -1,6 +1,8 @@
 package com.example.taskmanager.views;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -35,7 +37,9 @@ public class CompletadasActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_completadas);  // Establecemos el layout de la actividad
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#6B3E26")));  // Color marrón
         getSupportActionBar().setTitle("Tareas Completadas");  // Establecemos el título de la barra de acción
+
 
         // Inicialización de las vistas
         recyclerView = findViewById(R.id.recyclerViewCompletadas);
