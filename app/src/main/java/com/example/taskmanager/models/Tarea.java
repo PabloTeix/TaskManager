@@ -8,6 +8,7 @@ public class Tarea {
     // Declaración de las propiedades de la clase Tarea.
     String titulo, descripcion; // El título y la descripción de la tarea.
     Date fecha_inicio; // La fecha en que se inicia la tarea.
+    Date fecha_fin;
     boolean completada;
     String color;
 
@@ -18,10 +19,11 @@ public class Tarea {
     // Constructor de la clase Tarea con parámetros para inicializar los valores de la tarea.
     // Este constructor permite crear una nueva tarea especificando su título, descripción y fecha de inicio.
 
-    public Tarea(String titulo, String descripcion, Date fecha_inicio, boolean completada, String color) {
+    public Tarea(String titulo, String descripcion, Date fecha_inicio,Date fecha_fin, boolean completada, String color) {
         this.titulo = titulo;
         this.descripcion = descripcion;
         this.fecha_inicio = fecha_inicio;
+        this.fecha_fin = fecha_fin;
         this.completada = completada;
         this.color = color;
     }
@@ -66,6 +68,16 @@ public class Tarea {
     // Establecer una nueva fecha de inicio para la tarea.
     public void setFecha_inicio(Date fecha_inicio) {
         this.fecha_inicio = fecha_inicio; // Asigna la nueva fecha de inicio a la tarea.
+    }
+
+    // Obtener la fecha de fin de la tarea.
+    public Date getFecha_fin() {
+        return fecha_fin; // Devuelve la fecha de fin de la tarea.
+    }
+
+    // Establecer una nueva fecha de fin para la tarea.
+    public void setFecha_fin(Date fecha_fin) {
+        this.fecha_fin = fecha_fin; // Asigna la nueva fecha de fin a la tarea.
     }
 
     public boolean isCompletada() {
