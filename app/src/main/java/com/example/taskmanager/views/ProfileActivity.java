@@ -69,7 +69,6 @@ public class ProfileActivity extends AppCompatActivity {
                 TextView tvTareasCompletadas = findViewById(R.id.tvTareasCompletadas);
                 Button btnCerrarSesion = findViewById(R.id.btnCerrarSesion);
 
-
                 // Actualizar el texto para el usuario invitado
                 tvTareasActivas.setText("Tareas activas: Cargando...");
                 tvTareasCompletadas.setText("Tareas completadas: Cargando...");
@@ -288,5 +287,4 @@ public class ProfileActivity extends AppCompatActivity {
                     Toast.makeText(this, "Error al actualizar la contraseña en Firestore", Toast.LENGTH_SHORT).show();
                 });
     }
-
 }
