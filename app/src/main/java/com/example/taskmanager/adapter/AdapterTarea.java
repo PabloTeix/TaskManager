@@ -24,6 +24,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
 
 public class AdapterTarea extends FirestoreRecyclerAdapter<Tarea, AdapterTarea.ViewHolder> {
@@ -47,10 +48,25 @@ public class AdapterTarea extends FirestoreRecyclerAdapter<Tarea, AdapterTarea.V
         holder.descripcion.setText(tarea.getDescripcion());
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-        String fechaFormateada = sdf.format(tarea.getFecha_inicio());
-        holder.fecha.setText(fechaFormateada);
 
-        //Asignar color al CardView
+        // Verificar si la fecha de inicio no es null antes de formatearla
+        if (tarea.getFecha_inicio() != null) {
+            String fechaFormateada = sdf.format(tarea.getFecha_inicio());
+            holder.fecha.setText("Fecha inicio: " + fechaFormateada);
+        } else {
+            holder.fecha.setText("Fecha no disponible");
+        }
+
+        // Asignar la fecha de fin solo si existe
+        if (tarea.getFecha_fin() != null) {
+            String fechaFinFormateada = sdf.format(tarea.getFecha_fin());
+            holder.fechaFin.setText("Fecha fin: " + fechaFinFormateada);
+            holder.fechaFin.setVisibility(View.VISIBLE); // Hacer visible la fecha de fin
+        } else {
+            holder.fechaFin.setVisibility(View.GONE); // Ocultar el TextView si no hay fecha de fin
+        }
+
+        // Asignar color al CardView
         String color = tarea.getColor();
         if (color != null) {
             switch (color) {
@@ -101,9 +117,15 @@ public class AdapterTarea extends FirestoreRecyclerAdapter<Tarea, AdapterTarea.V
         holder.button_eliminar.setOnClickListener(v -> deleteTarea(id));
 
         holder.button_completar.setOnClickListener(v -> {
+            // Obtener la fecha actual para marcar la tarea como completada
+            Date fechaActual = new Date();
+
+            // Actualizamos la tarea en Firestore para marcarla como completada y añadir la fecha de finalización
             mFirestore.collection("tareas").document(id)
-                    .update("completada", true)
-                    .addOnSuccessListener(unused -> Toast.makeText(activity, "Tarea marcada como completada", Toast.LENGTH_SHORT).show())
+                    .update("completada", true, "fecha_fin", fechaActual)
+                    .addOnSuccessListener(unused -> {
+                        Toast.makeText(activity, "Tarea marcada como completada", Toast.LENGTH_SHORT).show();
+                    })
                     .addOnFailureListener(e -> Toast.makeText(activity, "Error al completar tarea", Toast.LENGTH_SHORT).show());
         });
 
@@ -117,7 +139,21 @@ public class AdapterTarea extends FirestoreRecyclerAdapter<Tarea, AdapterTarea.V
             Intent intent = new Intent(activity, DetailActivity.class);
             intent.putExtra("titulo", tarea.getTitulo());
             intent.putExtra("descripcion", tarea.getDescripcion());
-            intent.putExtra("fecha", fechaFormateada);
+
+            // Verificar si la fecha de inicio es válida
+            if (tarea.getFecha_inicio() != null) {
+                intent.putExtra("fecha", sdf.format(tarea.getFecha_inicio()));
+            }
+
+            // Verificar si la fecha de fin es válida
+            if (tarea.getFecha_fin() != null) {
+                intent.putExtra("fecha_fin", sdf.format(tarea.getFecha_fin()));
+            }
+
+            if (tarea.isCompletada() && tarea.getFecha_fin() != null) {
+                intent.putExtra("fecha_fin", sdf.format(tarea.getFecha_fin()));  // Enviar fecha fin si está disponible
+            }
+
             activity.startActivity(intent);
         });
     }
@@ -136,7 +172,7 @@ public class AdapterTarea extends FirestoreRecyclerAdapter<Tarea, AdapterTarea.V
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView titulo, descripcion, fecha;
+        TextView titulo, descripcion, fecha,fechaFin;
         ImageView button_eliminar, button_editar, button_completar;
         CardView cardView;
 
@@ -145,6 +181,7 @@ public class AdapterTarea extends FirestoreRecyclerAdapter<Tarea, AdapterTarea.V
             titulo = itemView.findViewById(R.id.tarea_titulo);
             descripcion = itemView.findViewById(R.id.tarea_descripcion);
             fecha = itemView.findViewById(R.id.tarea_fecha);
+            fechaFin = itemView.findViewById(R.id.tarea_fecha_fin);
             button_eliminar = itemView.findViewById(R.id.btn_eliminar);
             button_editar = itemView.findViewById(R.id.bt_editar);
             button_completar = itemView.findViewById(R.id.bt_completar);

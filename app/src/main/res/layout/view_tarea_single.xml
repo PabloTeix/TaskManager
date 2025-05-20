@@ -59,6 +59,16 @@
                 android:text="Fecha inicio"
                 android:textSize="16sp"
                 android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tarea_fecha_fin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Fecha fin"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:visibility="gone"/> <!-- Se oculta por defecto -->
+
         </LinearLayout>
 
         <!-- Botón editar -->
