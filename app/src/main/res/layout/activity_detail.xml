@@ -46,6 +46,7 @@
             android:text="Descripción de la tarea"
             android:textSize="22sp"
             android:textColor="#2C3E50"
+            android:textStyle="bold"
             android:layout_marginBottom="16dp"
             android:lineSpacingExtra="4dp"
             android:gravity="center"
@@ -64,18 +65,19 @@
             android:layout_marginStart="24dp"
             android:layout_marginEnd="24dp" />
 
-        <!-- Fecha de la tarea -->
+        <!-- Texto Fecha Inicio -->
         <TextView
-            android:id="@+id/tvFechaValorDetalle"
+            android:id="@+id/tvfecha_inicio"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Fecha inicio: "
             android:textSize="22sp"
             android:textColor="#2C3E50"
+            android:textStyle="bold"
             android:layout_marginBottom="16dp"
             android:lineSpacingExtra="4dp" />
 
-        <!-- Etiqueta de Fecha -->
+        <!-- Valor de Fecha Inicio -->
         <TextView
             android:id="@+id/tvFechaDetalle"
             android:layout_width="wrap_content"
@@ -86,12 +88,29 @@
             android:textColor="#34495E"
             android:layout_marginBottom="24dp" />
 
-        <!-- Separador -->
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#dcdcdc"
-            android:layout_marginTop="16dp" />
+        <!-- Texto Fecha Fin -->
+        <TextView
+            android:id="@+id/tvfecha_fin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Fecha fin: "
+            android:textSize="22sp"
+            android:textColor="#2C3E50"
+            android:textStyle="bold"
+            android:layout_marginBottom="16dp"
+            android:lineSpacingExtra="4dp" />
+
+        <!-- Valor de Fecha Fin -->
+        <TextView
+            android:id="@+id/tvFechaValorDetalle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Fecha: "
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="#34495E"
+            android:layout_marginBottom="24dp" />
+
 
         <!-- Imagen al final del layout -->
         <ImageView
