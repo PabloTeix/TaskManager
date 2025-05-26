@@ -27,13 +27,12 @@ import java.util.Map;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    // Se declaran las variables para los campos de entrada de texto
     private EditText etFullName, etEmail, etPassword, etConfirmPassword, etPhone, etAddress;
-    // Botón para ejecutar el registro
+
     private Button btnRegister;
-    // Barra de progreso que aparece mientras se realiza el registro
+
     private ProgressBar progressBar;
-    // Instancias de Firebase para autenticación y base de datos
+
     FirebaseFirestore mFirestore;
     FirebaseAuth mAuth;
 
@@ -51,7 +50,7 @@ public class RegisterActivity extends AppCompatActivity {
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#6B3E26")));  // Color marrón
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        // Inicializar los campos de entrada de texto y el botón
+
         etFullName = findViewById(R.id.etFullName);
         etEmail = findViewById(R.id.etEmail);
         etPassword = findViewById(R.id.etPassword);
@@ -61,7 +60,7 @@ public class RegisterActivity extends AppCompatActivity {
         btnRegister = findViewById(R.id.btnRegister);
         progressBar = findViewById(R.id.progressBar);
 
-        // Configurar el evento para el botón de registro
+
         btnRegister.setOnClickListener(v -> {
             // Obtener los valores de los campos de texto
             String fullName = etFullName.getText().toString().trim();
@@ -127,12 +126,12 @@ public class RegisterActivity extends AppCompatActivity {
 
                             // Crear un mapa con los datos adicionales del usuario
                             Map<String, Object> map = new HashMap<>();
-                            map.put("id", id); // ID del usuario
-                            map.put("nombre", fullName); // Nombre del usuario
-                            map.put("email", email); // Correo electrónico
-                            map.put("contraseña", password); // Contraseña del usuario
-                            map.put("telefono", phone); // Teléfono del usuario
-                            map.put("direccion", address); // Dirección del usuario
+                            map.put("id", id);
+                            map.put("nombre", fullName);
+                            map.put("email", email);
+                            map.put("contraseña", password);
+                            map.put("telefono", phone);
+                            map.put("direccion", address);
 
                             // Guardar los datos en la colección 'user' de Firestore
                             mFirestore.collection("user").document(id).set(map)

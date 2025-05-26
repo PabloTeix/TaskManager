@@ -36,7 +36,7 @@ public class CompletadasActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_completadas);  // Establecemos el layout de la actividad
+        setContentView(R.layout.activity_completadas);
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#6B3E26")));  // Color marrón
         getSupportActionBar().setTitle("Tareas Completadas");  // Establecemos el título de la barra de acción
 
@@ -61,8 +61,8 @@ public class CompletadasActivity extends AppCompatActivity {
 
         // Inicialización del adaptador y configuración del RecyclerView
         adapter = new AdapterTarea(options, this, true);  // 'true' indica que estamos en la actividad de tareas completadas
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));  // Establecemos el layout manager para el RecyclerView
-        recyclerView.setAdapter(adapter);  // Asignamos el adaptador al RecyclerView
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(adapter);
     }
 
     // Método que escucha los cambios en tiempo real para contar las tareas completadas
@@ -87,7 +87,7 @@ public class CompletadasActivity extends AppCompatActivity {
     // Inflamos el menú de opciones (como la barra superior)
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);  // Inflamos el menú desde el archivo XML
+        getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
@@ -97,14 +97,14 @@ public class CompletadasActivity extends AppCompatActivity {
         int id = item.getItemId();  // Obtenemos el ID del item seleccionado
 
         if (id == R.id.item_completadas_menu) {
-            return true;  // Si se selecciona "Tareas completadas", no hacemos nada
+            return true;
         } else if (id == R.id.item_main_menu) {
             startActivity(new Intent(CompletadasActivity.this, MainActivity.class));  // Abrimos la actividad principal
-            finish();  // Terminamos esta actividad para evitar que el usuario regrese a ella
+            finish();
             return true;
         } else if (id == R.id.item_profile) {
             startActivity(new Intent(CompletadasActivity.this, ProfileActivity.class));  // Abrimos la actividad de perfil
-            finish();  // Terminamos esta actividad
+            finish();
             return true;
         }
 

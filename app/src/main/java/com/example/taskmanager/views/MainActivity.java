@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
         mAdapter = new AdapterTarea(firestoreRecyclerOptions, this, false);
         mRecycler.setAdapter(mAdapter);
 
-        // Inicializar los componentes de la UI para la búsqueda y el contador de tareas activas
+
         tvContadorActivas = findViewById(R.id.tareas_activas);
         search_view = findViewById(R.id.search);
         search_view.setQueryHint("Búsqueda por título");
@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
         fabAgregarTarea = findViewById(R.id.fabAgregarTarea);
         fabAgregarTarea.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, CrearTareaActivity.class)));
 
-        // Configurar el buscador
+
         configurarBuscador();
     }
 
@@ -97,14 +97,12 @@ public class MainActivity extends AppCompatActivity {
         search_view.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                // Realizar la búsqueda cuando el texto es enviado
                 realizarBusqueda(query);
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                // Realizar la búsqueda mientras se cambia el texto
                 realizarBusqueda(newText);
                 return false;
             }
@@ -160,23 +158,20 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        // Contar las tareas activas al iniciar la actividad
         contarTareasActivas();
 
         if (mAdapter != null) {
-            mAdapter.startListening(); // Iniciar la escucha de datos del adaptador
+            mAdapter.startListening();
         }
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        // Detener la escucha de datos cuando la actividad se detiene
         if (mAdapter != null) {
             mAdapter.stopListening();
         }
 
-        // Eliminar el listener para las tareas activas
         if (listenerRegistroActivas != null) {
             listenerRegistroActivas.remove();
         }
@@ -185,7 +180,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        // Asegurarse de que el adaptador esté actualizado al reanudar la actividad
         if (mAdapter != null) {
             mAdapter.notifyDataSetChanged();
         }

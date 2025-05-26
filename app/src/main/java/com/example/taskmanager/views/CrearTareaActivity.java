@@ -28,7 +28,7 @@ import java.util.Map;
 
 public class CrearTareaActivity extends AppCompatActivity {
 
-    // Declaración de vistas (componentes de la UI)
+
     Button btnAgregar;
     EditText titulo_tarea, descripcion_tarea, inicio_tarea;
     Spinner spinnerColor;
@@ -37,13 +37,13 @@ public class CrearTareaActivity extends AppCompatActivity {
     private FirebaseFirestore mfirestore;
     private FirebaseAuth mAuth;
 
-    // Variable para determinar si la tarea está completada
+
     private boolean tareaCompletada = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);  // Habilita el diseño sin barras de borde.
+        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_crear_tarea);
 
         this.setTitle("Añadir tarea");
@@ -54,7 +54,7 @@ public class CrearTareaActivity extends AppCompatActivity {
         mfirestore = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
 
-        // Enlazar las vistas con los elementos del layout
+
         titulo_tarea = findViewById(R.id.titulo);
         descripcion_tarea = findViewById(R.id.descripcion);
         inicio_tarea = findViewById(R.id.fecha_inicio);
@@ -124,12 +124,11 @@ public class CrearTareaActivity extends AppCompatActivity {
         // Guardar la tarea en Firestore
         mfirestore.collection("tareas").add(map)
                 .addOnSuccessListener(documentReference -> {
-                    // Mostrar un mensaje de éxito y cerrar la actividad después de un pequeño retraso
                     Toast.makeText(getApplicationContext(), "Tarea creada exitosamente", Toast.LENGTH_SHORT).show();
                     new Handler().postDelayed(this::finish, 1000);
                 })
                 .addOnFailureListener(e -> {
-                    // Mostrar un mensaje de error si ocurre algún fallo
+
                     Toast.makeText(getApplicationContext(), "Error al ingresar datos", Toast.LENGTH_SHORT).show();
                     e.printStackTrace();
                 });
@@ -169,12 +168,10 @@ public class CrearTareaActivity extends AppCompatActivity {
         // Actualizar la tarea en Firestore
         mfirestore.collection("tareas").document(id).update(map)
                 .addOnSuccessListener(unused -> {
-                    // Mostrar un mensaje de éxito y cerrar la actividad
                     Toast.makeText(getApplicationContext(), "Tarea actualizada correctamente", Toast.LENGTH_SHORT).show();
                     finish();
                 })
                 .addOnFailureListener(e -> {
-                    // Mostrar un mensaje de error si ocurre algún fallo
                     Toast.makeText(getApplicationContext(), "Error al actualizar la tarea", Toast.LENGTH_SHORT).show();
                 });
     }

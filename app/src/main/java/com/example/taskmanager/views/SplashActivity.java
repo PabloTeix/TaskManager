@@ -15,7 +15,7 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        // Después de 3 segundos (puedes ajustar este tiempo), se redirige a MainActivity
+        // Después de 1 segundo se redirige a MainActivity
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {

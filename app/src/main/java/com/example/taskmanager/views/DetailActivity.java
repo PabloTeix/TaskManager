@@ -30,8 +30,8 @@ public class DetailActivity extends AppCompatActivity {
         tvTitulo = findViewById(R.id.tvTituloDetalle);
         tvDescripcion = findViewById(R.id.tvDescripcionDetalle);
         tvFecha = findViewById(R.id.tvFechaDetalle);
-        TextView tvFechaFinLabel = findViewById(R.id.tvfecha_fin); // <-- Esta es la vista que quieres ocultar
-        TextView tvFechaFin = findViewById(R.id.tvFechaValorDetalle);  // Valor de la fecha fin
+        TextView tvFechaFinLabel = findViewById(R.id.tvfecha_fin);
+        TextView tvFechaFin = findViewById(R.id.tvFechaValorDetalle);
 
         // Obtener datos del intent
         String titulo = getIntent().getStringExtra("titulo");
@@ -39,7 +39,7 @@ public class DetailActivity extends AppCompatActivity {
         String fecha = getIntent().getStringExtra("fecha");
         String fechaFin = getIntent().getStringExtra("fecha_fin");
 
-        // Asignar datos a las vistas
+
         tvTitulo.setText(titulo != null ? titulo : "Sin título");
         tvDescripcion.setText(descripcion != null ? descripcion : "Sin descripción");
         tvFecha.setText(fecha != null ? fecha : "Sin fecha");

@@ -6,10 +6,10 @@ import java.util.Date;
 public class Tarea {
 
     // Declaración de las propiedades de la clase Tarea.
-    String titulo, descripcion; // El título y la descripción de la tarea.
-    Date fecha_inicio; // La fecha en que se inicia la tarea.
-    Date fecha_fin; // La fecha en que se finaliza la tarea.
-    boolean completada; // Para saber si esta completada o no
+    String titulo, descripcion;
+    Date fecha_inicio;
+    Date fecha_fin;
+    boolean completada;
     String color; //Para darle un color a la tarea
 
     // Constructor vacío requerido para Firebase
@@ -39,45 +39,44 @@ public class Tarea {
         this.color = color;
     }
 
-    // Obtener el título de la tarea.
+
     public String getTitulo() {
 
-        return titulo; // Devuelve el título de la tarea.
+        return titulo;
     }
 
-    // Establecer un nuevo valor para el título de la tarea.
+
     public void setTitulo(String titulo) {
-        this.titulo = titulo; // Asigna el valor del título a la propiedad de la tarea.
+        this.titulo = titulo;
     }
 
-    // Obtener la descripción de la tarea.
+
     public String getDescripcion() {
-        return descripcion; // Devuelve la descripción de la tarea.
+        return descripcion;
     }
 
-    // Establecer una nueva descripción para la tarea.
+
     public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion; // Asigna el valor de la descripción a la propiedad de la tarea.
+        this.descripcion = descripcion;
     }
 
-    // Obtener la fecha de inicio de la tarea.
+
     public Date getFecha_inicio() {
-        return fecha_inicio; // Devuelve la fecha de inicio de la tarea.
+        return fecha_inicio;
     }
 
-    // Establecer una nueva fecha de inicio para la tarea.
     public void setFecha_inicio(Date fecha_inicio) {
-        this.fecha_inicio = fecha_inicio; // Asigna la nueva fecha de inicio a la tarea.
+        this.fecha_inicio = fecha_inicio;
     }
 
-    // Obtener la fecha de fin de la tarea.
+
     public Date getFecha_fin() {
-        return fecha_fin; // Devuelve la fecha de fin de la tarea.
+        return fecha_fin;
     }
 
-    // Establecer una nueva fecha de fin para la tarea.
+
     public void setFecha_fin(Date fecha_fin) {
-        this.fecha_fin = fecha_fin; // Asigna la nueva fecha de fin a la tarea.
+        this.fecha_fin = fecha_fin;
     }
 
     public boolean isCompletada() {

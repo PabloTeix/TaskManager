@@ -25,11 +25,11 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private EditText etEmailLogin, etPasswordLogin; // Campos de texto para el correo y la contraseña
-    private Button btnLogin, btnRegisterRedirect, btnInvitado; // Botones para login, redirigir al registro, y acceso anónimo
-    private ProgressBar progressBar; // Barra de progreso que se muestra durante el login
+    private EditText etEmailLogin, etPasswordLogin;
+    private Button btnLogin, btnRegisterRedirect, btnInvitado;
+    private ProgressBar progressBar;
 
-    private FirebaseAuth mAuth; // Instancia de FirebaseAuth para la autenticación
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,12 +50,12 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         // Inicializa los elementos de la interfaz de usuario (UI)
-        etEmailLogin = findViewById(R.id.etEmailLogin); // EditText para el correo electrónico
-        etPasswordLogin = findViewById(R.id.etPasswordLogin); // EditText para la contraseña
-        btnLogin = findViewById(R.id.btnLogin); // Botón para iniciar sesión
-        btnRegisterRedirect = findViewById(R.id.btnRegisterRedirect); // Botón para redirigir al registro
-        btnInvitado = findViewById(R.id.btn_invitado); // Botón para iniciar sesión como invitado
-        progressBar = findViewById(R.id.progressBar); // Barra de progreso
+        etEmailLogin = findViewById(R.id.etEmailLogin);
+        etPasswordLogin = findViewById(R.id.etPasswordLogin);
+        btnLogin = findViewById(R.id.btnLogin);
+        btnRegisterRedirect = findViewById(R.id.btnRegisterRedirect);
+        btnInvitado = findViewById(R.id.btn_invitado);
+        progressBar = findViewById(R.id.progressBar);
 
         // Configura el clic del botón para login anónimo
         btnInvitado.setOnClickListener(new View.OnClickListener() {
@@ -80,8 +80,8 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String email = etEmailLogin.getText().toString().trim(); // Obtiene el correo del EditText
-                String password = etPasswordLogin.getText().toString().trim(); // Obtiene la contraseña del EditText
+                String email = etEmailLogin.getText().toString().trim();
+                String password = etPasswordLogin.getText().toString().trim();
 
                 // Verifica si los campos están vacíos
                 if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
