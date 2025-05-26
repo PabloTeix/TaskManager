@@ -182,9 +182,9 @@ public class AdapterTarea extends FirestoreRecyclerAdapter<Tarea, AdapterTarea.V
 
     // ViewHolder que contiene las vistas para cada ítem
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView titulo, descripcion, fecha, fechaFin;  // Vistas para mostrar los datos de la tarea
-        ImageView button_eliminar, button_editar, button_completar; // Botones de acción
-        CardView cardView; // CardView que contiene cada tarea
+        TextView titulo, descripcion, fecha, fechaFin;
+        ImageView button_eliminar, button_editar, button_completar;
+        CardView cardView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -195,7 +195,7 @@ public class AdapterTarea extends FirestoreRecyclerAdapter<Tarea, AdapterTarea.V
             button_eliminar = itemView.findViewById(R.id.btn_eliminar);
             button_editar = itemView.findViewById(R.id.bt_editar);
             button_completar = itemView.findViewById(R.id.bt_completar);
-            cardView = itemView.findViewById(R.id.card_tarea); // Referencia al CardView
+            cardView = itemView.findViewById(R.id.card_tarea);
         }
     }
 }
