@@ -16,8 +16,7 @@
 ## Características
 
 - **Gestión Sencilla de Tareas**: Agrega, edita o elimina tareas con solo unos clics.
-- **Marcar como Completadas**: Mantén el control de tu progreso y celebra cada tarea completada.
-- **Vista de Calendario**: Visualiza tu agenda y tareas pendientes de manera clara y organizada.
+- **Marcar como Completadas**: Mantén el control de tu progreso y celebra cada tarea completada
 - **Interfaz Intuitiva**: Con un diseño amigable, no perderás tiempo navegando entre menús complejos.
 
 
@@ -30,7 +29,7 @@ Lo que nos diferencia es que **es completamente gratuito** y **sin anuncios**. N
 
 ## Tecnologías utilizadas
 
-- **Android**: Android Studio (Java/Kotlin)
+- **Android**: Android Studio (Java)
 - **Firebase**:
   - **Firebase Authentication**: Para manejar el registro e inicio de sesión.
   - **Firebase Firestore**: Para almacenar las tareas de cada usuario.
@@ -55,3 +54,11 @@ Primero, clona este repositorio en tu máquina local:
 
 ```bash
 git clone https://github.com/PabloTeix/TrabajoFinCurso.git
+```
+Una vez se tiene el repositorio lo abriremos en Android Studio,alli elegiremos el emulador que queramos usar y le daremos a Play.
+
+## Para probar la aplicacion en nuestro movil
+-Podeis pedir el archivo APK y asi se podrá descargar en un dispositivo movil Android
+
+## A futuro
+-Con unas mejoras se podria subir TaskManager a PlayStore
