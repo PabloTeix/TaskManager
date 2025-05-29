@@ -25,7 +25,7 @@
         android:layout_height="wrap_content"
         android:text="Tareas activas: 0"
         android:textSize="16sp"
-        android:textColor="#666"
+        android:textColor="#2C3E50"
         android:paddingBottom="20dp"/>
 
     <!-- Tareas completadas -->
@@ -35,7 +35,7 @@
         android:layout_height="wrap_content"
         android:text="Tareas completadas: 0"
         android:textSize="16sp"
-        android:textColor="#666"
+        android:textColor="#2C3E50"
         android:paddingBottom="20dp"/>
 
     <!-- Mensaje invitando a registrarse -->
@@ -45,7 +45,7 @@
         android:layout_height="wrap_content"
         android:text="¡Regístrate para tener acceso completo a las funcionalidades!"
         android:textSize="16sp"
-        android:textColor="#FF5722"
+        android:textColor="#141010"
         android:gravity="center"
         android:paddingBottom="20dp"/>
 

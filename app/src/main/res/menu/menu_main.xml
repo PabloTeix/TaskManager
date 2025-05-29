@@ -1,40 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:fitsSystemWindows="true">
 
-    <!-- Opción para ir al menú principal -->
+
     <item
         android:id="@+id/item_main_menu"
         android:title="🏠 Inicio"
         android:icon="@drawable/ic_principal"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="never" />
 
-    <!-- Barra visual como separador -->
-    <item
-        android:id="@+id/separator1"
-        android:title="|"
-        android:enabled="false"
-        app:showAsAction="always" />
-
-    <!-- Opción para tareas completadas -->
     <item
         android:id="@+id/item_completadas_menu"
         android:title="✅ Completadas"
         android:icon="@drawable/ic_pan_completada"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="never" />
 
-    <!-- Barra visual como separador -->
-    <item
-        android:id="@+id/separator2"
-        android:title="|"
-        android:enabled="false"
-        app:showAsAction="always" />
 
-    <!-- Opción para ir al perfil -->
     <item
         android:id="@+id/item_profile"
         android:title="👤 Perfil"
         android:icon="@drawable/ic_perfil"
-        app:showAsAction="ifRoom" />
-
+        app:showAsAction="never" />
 </menu>
