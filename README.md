@@ -45,8 +45,8 @@ Lo que nos diferencia es que **es completamente gratuito** y **sin anuncios**. N
 ### 1. Requisitos previos
 
 - **Android Studio**: Asegúrate de tener **Android Studio** instalado. Si no lo tienes, puedes descargarlo desde [aquí](https://developer.android.com/studio).
-- **Cuenta de Firebase**: Necesitarás una cuenta en Firebase. Si no tienes una, puedes crearla [aquí](https://firebase.google.com/).
-- **SDK de Firebase**: Para integrar Firebase en tu aplicación Android.
+- **Cuenta de Firebase**: Solo habrá una cuenta de Firebase.
+- **SDK de Firebase**: Ya está integrada.
 
 ### 2. Clonar el repositorio
 
@@ -61,4 +61,5 @@ Una vez se tiene el repositorio lo abriremos en Android Studio,alli elegiremos e
 -Podeis pedir el archivo APK y asi se podrá descargar en un dispositivo movil Android
 
 ## A futuro
+-Más funciones
 -Con unas mejoras se podria subir TaskManager a PlayStore
